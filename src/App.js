@@ -11,9 +11,11 @@ function App() {
 
   return (
     <ChakraProvider>
-      <div className='font-body flex flex-col gap-10  px-5'>
-          <NavBar />
-          <div className='flex justify-between'>
+      <div className={darkTheme ? 'dark' : 'font-body flex flex-col gap-20'}>
+          <div>
+            <NavBar />
+          </div>
+          <div className='flex justify-between px-10'>
             <SideBar />
             <Posts />
             <Messages />
