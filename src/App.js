@@ -16,7 +16,9 @@ function App() {
             <NavBar />
           </div>
           <div className='flex justify-between px-10'>
-            <SideBar />
+            <div>
+              <SideBar />
+            </div>
             <Posts />
             <Messages />
           </div>
