@@ -8,6 +8,8 @@ module.exports = {
       fontFamily: {
         body: ['Inter']
       }
+
+  
     },
   },
   plugins: [],

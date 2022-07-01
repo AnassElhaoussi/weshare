@@ -1,7 +1,10 @@
 
-import Messages from "./Messages";
 import NavBar from "./NavBar";
-import Posts from './Posts'
 import SideBar from "./SideBar";
+import Explore from "./Explore";
+import Home from "./Home";
+import Login from "./Login";
+import SignUp from "./SignUp";
 
-export {Messages, NavBar, Posts, SideBar}
+
+export {NavBar, SideBar, Explore, Home, Login, SignUp}

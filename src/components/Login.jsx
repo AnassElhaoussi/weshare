@@ -1,0 +1,46 @@
+import React from 'react'
+import { bgImg, googleIcon, facebookIcon, twitterIcon } from '../assets'
+
+
+const Login = () => {
+  return (
+    <div className='flex'>
+        <div className='bg-no-repeat bg-cover w-1/2 h-screen flex flex-col gap-3 items-center justify-center' style={{backgroundImage: "url('https://images.unsplash.com/photo-1593435221502-c5d7bfc26cab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80')"}}>
+            <h1 className='text-5xl font-bold text-gray-100'>Welcome to we<span>share</span> </h1>
+            <p className='text-sm text-gray-100'>A social media platform where everyone can think, create and share.</p>
+        </div>
+        <div className='w-1/2'>
+          <div className='flex flex-col gap-10 items-center justify-center h-screen'>
+              <h1 className='text-4xl font-bold'>Login to we<span className='text-blue-500'>share</span></h1>
+              <div className='flex gap-3'>
+                  <div className='w-10'>
+                    <img src={googleIcon} alt="google-icon" />
+                  </div>
+                  <div className='w-10'>
+                    <img src={facebookIcon} alt="facebook-icon"/>
+                  </div>
+                  <div className='w-10'>
+                    <img src={twitterIcon} alt="twitter-icon"/>
+                  </div>
+              </div>
+              <div className='flex flex-col gap-3'>
+                <h3 className='text-center text-sm'>Already have an account ?</h3>
+                <div className='flex flex-col gap-4'>
+                  <form action="" className='flex flex-col gap-2'>
+                    <label htmlFor="">Email : </label>
+                    <input type="text" placeholder='Enter your email' className='bg-gray-100 px-3 py-1 outline-none' />
+                  </form>
+                  <form action="" className='flex flex-col gap-2'>
+                    <label htmlFor="" >Password : </label>
+                    <input type="text" placeholder='Enter your password' className='bg-gray-100 px-3 py-1 outline-none' />
+                  </form>
+                </div>
+                <h3 className='text-sm'>Don't have an account ? <span className='text-blue-500 cursor-pointer'>Sign up</span> </h3>
+              </div>
+          </div>
+        </div>
+    </div>
+  )
+}
+
+export default Login

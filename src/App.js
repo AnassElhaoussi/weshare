@@ -2,7 +2,10 @@ import React, {useState} from 'react'
 import './styles/index.css'
 import { motion } from 'framer-motion'
 import {ChakraProvider} from '@chakra-ui/react'
-import {NavBar, Messages, Posts, SideBar} from './components'
+import {NavBar, SideBar, Explore, Home, Login} from './components'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import WeShare from './WeShare'
+
 
 
 function App() {
@@ -10,19 +13,18 @@ function App() {
   const [darkTheme, setDarkTheme ] = useState(false)
 
   return (
+
     <ChakraProvider>
-      <div className={darkTheme ? 'dark' : 'font-body flex flex-col gap-20'}>
-          <div>
-            <NavBar />
+      <Router>
+        <div className={darkTheme ? 'dark' : ''}>
+          <div className='font-body'>
+              <Routes>
+                <Route path='/' element={<Login />} />
+                <Route path='/weshare' element={<WeShare />} />
+              </Routes>
           </div>
-          <div className='flex justify-between px-10'>
-            <div>
-              <SideBar />
-            </div>
-            <Posts />
-            <Messages />
-          </div>
-      </div>
+        </div>
+      </Router>
     </ChakraProvider>
   );
 }
