@@ -5,11 +5,11 @@ import { bgImg, googleIcon, facebookIcon, twitterIcon } from '../assets'
 const Login = () => {
   return (
     <div className='flex'>
-        <div className='bg-no-repeat bg-cover w-1/2 h-screen flex flex-col gap-3 items-center justify-center' style={{backgroundImage: "url('https://images.unsplash.com/photo-1593435221502-c5d7bfc26cab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80')"}}>
-            <h1 className='text-5xl font-bold text-gray-100'>Welcome to we<span>share</span> </h1>
-            <p className='text-sm text-gray-100'>A social media platform where everyone can think, create and share.</p>
+        <div className='bg-no-repeat bg-cover w-1/2 h-screen md:flex hidden flex-col gap-3 items-center justify-center' style={{backgroundImage: "url('https://images.unsplash.com/photo-1593435221502-c5d7bfc26cab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80')"}}>
+            <h1 className='xl:text-5xl lg:text-5xl md:text-3xl font-bold text-gray-100'>Welcome to we<span className=''>share</span> </h1>
+            <p className='xl:text-sm text-xs md:w-80 xl:w-96 text-center text-gray-100'>A social media platform where everyone can think, create and share.</p>
         </div>
-        <div className='w-1/2'>
+        <div className='md:w-1/2 w-screen'>
           <div className='flex flex-col gap-10 items-center justify-center h-screen'>
               <h1 className='text-4xl font-bold'>Login to we<span className='text-blue-500'>share</span></h1>
               <div className='flex gap-3'>
