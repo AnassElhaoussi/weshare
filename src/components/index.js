@@ -7,4 +7,5 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 
 
+
 export {NavBar, SideBar, Explore, Home, Login, SignUp}
