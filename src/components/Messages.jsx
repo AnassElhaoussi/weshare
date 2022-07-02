@@ -3,7 +3,7 @@ import React from 'react'
 
 const Messages = () => {
   return (
-    <div>Messages</div>
+    <div className='md:flex hidden'>Messages</div>
   )
 }
 
