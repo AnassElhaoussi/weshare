@@ -9,10 +9,16 @@ import {
 } from '@chakra-ui/react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faCompass, faMessage, faMoon, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faCompass, faMessage, faMoon, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { auth } from '../firebase';
 
 
 const SideBar = () => {
+
+  const handleSignOut = () => {
+    auth.signOut()
+  }
+
   return (
 
         <div className=' fixed flex flex-col gap-10 text-md mt-16 cursor-pointer bg-gray-50 px-6 pt-10 md:pb-16 rounded-lg font-bold'>
@@ -31,24 +37,18 @@ const SideBar = () => {
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
                 <Menu>
                   <MenuButton className='' >
-                    <FontAwesomeIcon icon={faMoon} className='' />
-                  </MenuButton>
-                  <h3 className='md:flex hidden'>Themes</h3>
-                  <MenuList>
-                    <MenuItem>Dark Mode</MenuItem>
-                    <MenuItem>Light Mode</MenuItem>
-                  </MenuList>
-                </Menu>
-            </div>
-            <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
-                <Menu>
-                  <MenuButton className='' >
                     <FontAwesomeIcon icon={faGear} className='' />
                   </MenuButton>
                   <h3 className='md:flex hidden'>Settings</h3>
                   <MenuList>
-                    <MenuItem>Login</MenuItem>
-                    <MenuItem>Sign up</MenuItem>
+                    <MenuItem className='flex gap-3'>
+                      <FontAwesomeIcon icon={faUser} />
+                      <h3>Account</h3>
+                    </MenuItem>
+                    <MenuItem className='flex gap-3' onClick={handleSignOut}> 
+                      <FontAwesomeIcon icon={faSignOut} />
+                      <h3>Sign Out</h3>
+                     </MenuItem>
                   </MenuList>
                 </Menu>
             </div>

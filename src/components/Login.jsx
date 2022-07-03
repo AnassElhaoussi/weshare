@@ -17,10 +17,10 @@ const Login = () => {
   
   const handleLoginSubmit = (e) => {
     e.preventDefault()
-
     if(email !== "" && password !== ""){
       auth.signInWithEmailAndPassword(email, password)
       .then(userCredential => {
+        console.log(userCredential);
         navigate('/weshare')
 
       }).catch(error => {
@@ -56,19 +56,19 @@ const Login = () => {
               </div>
               <div className='flex flex-col gap-3'>
                 <h3 className='text-center text-sm'>Already have an account ?</h3>
-                  <form action="" className='flex flex-col gap-2 items-center' onSubmit={(e) => handleLoginSubmit(e)}>
-                    <form className='flex flex-col gap-4'>
+                  <div className='flex flex-col gap-2 items-center'>
+                    <form className='flex flex-col gap-4' onSubmit={handleLoginSubmit}>
                       <label htmlFor="">Email : </label>
                       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={notComplete ? 'Please enter your email' : 'Enter your email'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                       <p className='text-red-600 text-xs'>{errorCode == "auth/invalid-email" ? "Invalid Email!" : ""} </p>
                     </form>
-                    <form action="" className='flex flex-col gap-2'>
+                    <form action="" className='flex flex-col gap-2' onSubmit={(e) => handleLoginSubmit(e)}>
                       <label htmlFor="" >Password : </label>
                       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={notComplete ? 'Please enter your password' : 'Enter your password'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                       <p className='text-red-600 text-xs'>{errorCode == "auth/user-not-found" ? "User not found" : ""} </p>
+                      <button type='submit' className='text-white bg-blue-500 font-bold px-4 py-1 rounded-3xl'>Submit</button>
                     </form>
-                    <button type='submit' className='text-white bg-blue-500 px-4 py-1 rounded-3xl'>Submit</button>
-                </form>
+                  </div>
                 <h3 className='text-sm'>Don't have an account ? <span className='text-blue-500 cursor-pointer'>
                     <Link to='/signup'>
                       Sign Up
