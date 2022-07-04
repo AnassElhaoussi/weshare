@@ -16,7 +16,7 @@ const NavBar = () => {
             <input type="text" placeholder='Search for posts..' className='bg-gray-100 py-1 px-10 rounded outline-none' />
             <SearchIcon className="absolute right-5 top-2 cursor-pointer" />
         </div>
-        <FontAwesomeIcon icon={faMoon} className='text-xl cursor-pointer' />
+        
         
         
     </div>

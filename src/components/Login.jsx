@@ -20,12 +20,12 @@ const Login = () => {
     if(email !== "" && password !== ""){
       auth.signInWithEmailAndPassword(email, password)
       .then(userCredential => {
-        console.log(userCredential);
+
         navigate('/weshare')
 
       }).catch(error => {
         setErrorCode(error.code)
-        console.log(error.code);
+
       })
 
       setNotComplete(false)

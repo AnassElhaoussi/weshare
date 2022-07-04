@@ -27,12 +27,10 @@ const SignUp = () => {
           })
 
           navigate('/')
-          
 
-          console.log(userCredential.user);
         }).catch(error => {
           setErrorCode(error.code)
-          console.log(error.code)
+
         })
 
         setNotComplete(false)
