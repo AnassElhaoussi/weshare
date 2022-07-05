@@ -138,7 +138,7 @@ const AccountModal = ({isOpen, onClose}) => {
                             </button>
                         </div>
                         <div className={edit ? 'flex flex-col gap-2 items-staart' : 'hidden'}>
-                            <div className='flex gap-3'>
+                            <div className='flex gap-3 items-center'>
                                 <input type="text" className='outline-none bg-gray-100 px-4 py-1 rounded' placeholder='Edit Username' value={editInput} onChange={(e) => setEditInput(e.target.value)} />
                                 <FontAwesomeIcon icon={faCheck} className='cursor-pointer' onClick={handleUsernameEdit} />
                             </div>
@@ -159,8 +159,8 @@ const AccountModal = ({isOpen, onClose}) => {
                                 </div>
                                 <div className='flex gap-4 items-center'>
                                     <Avatar src={imgUrl}  />
-                                    <input type="file" onChange={(e) => editProfilePic(e)} className='w-36 file:text-white file:rounded file:bg-blue-500 file:border-none file:py-1 file:cursor-pointer' />
-                                    <button className='text-white bg-blue-500 font-bold px-3 py-1 rounded' onClick={handleImageSubmit}>{isLoading ? "Loading..." : "Save"} </button>
+                                    <input type="file" onChange={(e) => editProfilePic(e)} className='w-36 file:text-white file:rounded file:bg-blue-500 file:border-none file:py-1 file:cursor-pointer file:hover:bg-blue-100 file:hover:text-blue-500' />
+                                    <button className='text-white bg-blue-500 font-bold px-3 py-1 rounded hover:text-blue-500 hover:bg-blue-100' onClick={handleImageSubmit}>{isLoading ? "Loading..." : "Save"} </button>
                                 </div>
                             </div>
                             
