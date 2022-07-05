@@ -34,7 +34,7 @@ const AccountModal = ({isOpen, onClose}) => {
   const animation = useAnimation()
   const [imgUrl, setImgUrl] = useState(user.photoURL)
   const [isLoading, setIsLoading] = useState(false)
-
+  const [invalidUserName, setInvalidUserName] = useState(false)
 
   useEffect(() => {
     auth.currentUser.updateProfile({
@@ -59,17 +59,22 @@ const AccountModal = ({isOpen, onClose}) => {
   }, [isActive])
 
 
+
   const editUserName = () => {
     setEdit(true)
   }
   
 
   const handleUsernameEdit = () => {
-    if(editInput !== ""){
+    if(editInput.length <= 14 && editInput !== ""){
         setEdit(false)
         auth.currentUser.updateProfile({
             displayName: editInput
         })
+
+        setInvalidUserName(false)
+    } else {
+        setInvalidUserName(true)
     }
   }
 
@@ -78,29 +83,28 @@ const AccountModal = ({isOpen, onClose}) => {
   }
 
   const editProfilePic = (e) => {
-    if(e.target.files[0]){
-        setImage(e.target.files[0])
-    }
-  }
-
-  const handleImageSubmit = async () => {
-    const imageRef = ref(storage, "image")
-
-    
-    uploadBytes(imageRef, image).then(() => {
+      
+      if(e.target.files[0]){
+          setImage(e.target.files[0])
+        }
+}
         
-        getDownloadURL(imageRef).then(url => {
-
-            setImgUrl(url)
+        
+    const handleImageSubmit = () => {
+        const imageRef = ref(storage, "image")
+            
+        uploadBytes(imageRef, image).then(() => {
+            
+            getDownloadURL(imageRef).then(url => {
+    
+                setImgUrl(url)
+            }).catch(error => {
+                console.log(error.message);
+            })
+            setIsLoading(false)
         }).catch(error => {
             console.log(error.message);
         })
-        setIsLoading(false)
-    }).catch(error => {
-        console.log(error.message);
-    })
-
-    
   }
 
 
@@ -128,14 +132,19 @@ const AccountModal = ({isOpen, onClose}) => {
                         </div>
                         <div className='flex gap-2 items-center justify-center'>
                             <p className='text-blue-500 select-none'>Username : </p>
-                            <h2>{editInput !== "" && editInput}</h2>
+                            <h2>{editInput}</h2>
                             <button>
                                 <FontAwesomeIcon icon={faEdit} className={edit ? 'hidden' : 'flex cursor-pointer text-blue-500'} onClick={editUserName} />
                             </button>
                         </div>
-                        <div className={edit ? 'flex gap-3 items-center' : 'hidden'}>
-                            <input type="text" className='outline-none bg-gray-100 px-4 py-1 rounded' placeholder='Edit Username' value={editInput} onChange={(e) => setEditInput(e.target.value)} />
-                            <FontAwesomeIcon icon={faCheck} className='cursor-pointer' onClick={handleUsernameEdit} />
+                        <div className={edit ? 'flex flex-col gap-2 items-staart' : 'hidden'}>
+                            <div className='flex gap-3'>
+                                <input type="text" className='outline-none bg-gray-100 px-4 py-1 rounded' placeholder='Edit Username' value={editInput} onChange={(e) => setEditInput(e.target.value)} />
+                                <FontAwesomeIcon icon={faCheck} className='cursor-pointer' onClick={handleUsernameEdit} />
+                            </div>
+                            {invalidUserName && (
+                                <p className='text-red-600 text-sm'>Invalid Username!</p>
+                            )}
                         </div>
                         <div className='flex gap-2 items-center justify-center '>
                             <p className='text-blue-500'>Email : </p>
