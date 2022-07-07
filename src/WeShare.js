@@ -1,24 +1,22 @@
 
-import React from 'react'
+import React, {useState} from 'react'
 import { Home, Explore, NavBar, SideBar } from './components'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 
 const WeShare = () => {
+
+  const [darkTheme, setDarkTheme] = useState(false)
+
   return (
-            <div className='flex flex-col gap-20'>
-                    <div>
-                        <NavBar />
-                    </div>
-                    <div className='flex px-10 justify-between'>
-                        <div>
-                            <SideBar />
-                        </div>
-                        <div className='py-10'>
-                            <Home />
-                        </div>
-                    </div>
-            </div>
+        <div className='flex flex-col gap-10 px-10'>
+             <NavBar />
+             <div className='flex xl:gap-60 lg:gap-56 md:gap-44 sm:gap-36 gap-28'>
+                <SideBar />
+                <Home />
+             </div>
+        </div>
+
         )
 }
 

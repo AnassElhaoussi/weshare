@@ -10,7 +10,7 @@ const NavBar = () => {
 
 
   return (
-    <div className="fixed top-0 left-10 right-10 flex justify-between py-2 items-center">
+    <div className="flex flex-wrap gap-4 justify-between py-2 px-6 items-center bg-white">
         <h1 className='text-2xl font-bold'>we<span className='text-blue-500'>share.</span></h1>
         <div className='relative'>
             <input type="text" placeholder='Search for posts..' className='bg-gray-100 py-1 px-10 rounded outline-none' />

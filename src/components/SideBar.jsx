@@ -10,12 +10,12 @@ import {
 } from '@chakra-ui/react'
 import AccountModal from './AccountModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faCompass, faMessage, faMoon, faGear, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faCompass, faMessage, faMoon, faGear, faSignOut, faUser, faSun } from "@fortawesome/free-solid-svg-icons";
 import { auth } from '../firebase';
 
 
 
-const SideBar = () => {
+const SideBar = ({darkTheme, setDarkTheme}) => {
 
   const {isOpen, onToggle, onClose} = useDisclosure()
 
@@ -24,8 +24,10 @@ const SideBar = () => {
   }
 
   return (
+    
+        <div className='relative'>
+          <div className='fixed flex flex-col gap-10 text-md-300 cursor-pointer bg-gray-50 px-6 pt-10 md:pb-16 rounded-lg font-bold w-fit'>
 
-        <div className=' fixed flex flex-col gap-10 text-md mt-16 cursor-pointer bg-gray-50 px-6 pt-10 md:pb-16 rounded-lg font-bold w-fit'>
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
               <FontAwesomeIcon icon={faHouse} />
               <h3 className='md:flex hidden'>Home</h3>
@@ -39,8 +41,8 @@ const SideBar = () => {
               <h3 className='md:flex hidden'>Messages</h3>
             </div>
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
-              <FontAwesomeIcon icon={faMoon} />
-              <h3 className='md:flex hidden'>Dark mode</h3>
+              <FontAwesomeIcon icon={darkTheme ? faSun : faMoon} />
+              <h3 className='md:flex hidden select-none' onClick={() => setDarkTheme(!darkTheme) }>{darkTheme ? "Light Mode" : "Dark mode"} </h3>
             </div>
             <div className='flex gap-5 items-center'>
                 <Menu>
@@ -48,7 +50,7 @@ const SideBar = () => {
                     <FontAwesomeIcon icon={faGear} className='' />
                   </MenuButton>
                   <h3 className='md:flex hidden'>Settings</h3>
-                  <MenuList>
+                  <MenuList className=''>
                     <MenuItem className='flex gap-3' onClick={onToggle}>
                       <FontAwesomeIcon icon={faUser} />
                       <h3>Account</h3>
@@ -62,9 +64,11 @@ const SideBar = () => {
                 <AccountModal isOpen={isOpen} onClose={onClose}  /> 
             </div>
             <div className=''>
-              <button className='absolute md:flex hidden left-5 bg-blue-500 text-white px-4 py-2 rounded-3xl hover:bg-white hover:border-blue-500 hover:border-2 hover:text-blue-500 transition-all'>Create Post</button>
+              <button className='md:flex absolute hidden left-5 bg-blue-500 text-white px-4 py-2 rounded-3xl hover:bg-white hover:border-blue-500 hover:border-2 hover:text-blue-500 transition-all'>Create Post</button>
             </div>
+          </div>
         </div>
+
         
   
   )

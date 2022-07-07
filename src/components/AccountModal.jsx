@@ -113,8 +113,8 @@ const AccountModal = ({isOpen, onClose}) => {
   return (
 
 
-        <Popover isOpen={isOpen} onClose={onClose} >
-            <PopoverContent>
+        <Popover isOpen={isOpen} onClose={onClose}  >
+            <PopoverContent className='' border="0">
                 <PopoverArrow />
                 <PopoverHeader border='0'>
                     <h1>Account</h1>
@@ -134,7 +134,7 @@ const AccountModal = ({isOpen, onClose}) => {
                             <p className='text-blue-500 select-none'>Username : </p>
                             <h2>{editInput}</h2>
                             <button>
-                                <FontAwesomeIcon icon={faEdit} className={edit ? 'hidden' : 'flex cursor-pointer text-blue-500'} onClick={editUserName} />
+                                <FontAwesomeIcon icon={faEdit} className={edit ? 'hidden' : 'flex cursor-pointer text-blue-500 '} onClick={editUserName} />
                             </button>
                         </div>
                         <div className={edit ? 'flex flex-col gap-2 items-staart' : 'hidden'}>
@@ -150,7 +150,7 @@ const AccountModal = ({isOpen, onClose}) => {
                             <p className='text-blue-500'>Email : </p>
                             <h2>{user.email}</h2>
                         </div>
-                        <motion.div animate={animation} className={isActive ? ' shadow-md bg-gray-50 absolute left-60 top-10 rounded py-2 px-3' : 'hidden'}>
+                        <motion.div animate={animation} className={isActive ? ' shadow-md bg-gray-50 absolute xl:left-60 xl:top-10 sm:left-30 sm:top-10 rounded py-2 px-3' : 'hidden'}>
                             <div className='flex flex-col gap-6 relative'>
 
                                 <div className='flex items-center'>           

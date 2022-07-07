@@ -11,21 +11,21 @@ import { AuthProvider } from './context/AuthContext'
 
 function App() {
 
-  const [darkTheme, setDarkTheme ] = useState(false)
+  
 
   return (
     <Router>
       <AuthProvider>
         <ChakraProvider>
-            <div className={darkTheme ? 'dark' : ''}>
+
               <div className='font-body'>
                   <Routes>
                     <Route path='/' element={<Login />} />
                     <Route path='/weshare' element={<WeShare />} />
-                    <Route path='/signup' element={<SignUp />} />
+                    <Route path='/signup' element={<SignUp  />} />
                   </Routes>
               </div>
-            </div>
+
         </ChakraProvider>
       </AuthProvider>
     </Router>
