@@ -25,7 +25,7 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
 
   return (
     
-        <div className='relative'>
+        <div className='relative z-50'>
           <div className='fixed flex flex-col gap-10 text-md-300 cursor-pointer bg-gray-50 px-6 pt-10 md:pb-16 rounded-lg font-bold w-fit'>
 
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
