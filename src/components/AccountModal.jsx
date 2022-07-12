@@ -24,6 +24,7 @@ import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 
 
+
 const AccountModal = ({isOpen, onClose}) => {
 
   const user = useAuthContext()
@@ -32,15 +33,10 @@ const AccountModal = ({isOpen, onClose}) => {
   const [image, setImage] = useState()
   const [isActive, setIsActive] = useState(false)
   const animation = useAnimation()
-  const [imgUrl, setImgUrl] = useState(user.photoURL)
-  const [isLoading, setIsLoading] = useState(false)
+  const [imgUrl, setImgUrl] = useState(auth.currentUser.photoURL)
   const [invalidUserName, setInvalidUserName] = useState(false)
 
-  useEffect(() => {
-    auth.currentUser.updateProfile({
-        photoURL: imgUrl
-    })
-  }, [imgUrl])
+
 
 
   useEffect(() => {
@@ -58,6 +54,20 @@ const AccountModal = ({isOpen, onClose}) => {
 
   }, [isActive])
 
+  useEffect(() => {
+    auth.currentUser.updateProfile({
+        displayName: editInput,
+    })
+  }, [editInput])
+
+  useEffect(() => {
+    if(auth.currentUser.uid === user.uid){
+        auth.currentUser.updateProfile({
+            photoURL: imgUrl
+        })
+    }
+
+  }, [imgUrl])
 
 
   const editUserName = () => {
@@ -68,9 +78,6 @@ const AccountModal = ({isOpen, onClose}) => {
   const handleUsernameEdit = () => {
     if(editInput.length <= 14 && editInput !== ""){
         setEdit(false)
-        auth.currentUser.updateProfile({
-            displayName: editInput
-        })
 
         setInvalidUserName(false)
     } else {
@@ -78,34 +85,40 @@ const AccountModal = ({isOpen, onClose}) => {
     }
   }
 
+  const editProfilePic = (e) => {
+  
+    if(e.target.files[0]){
+        setImage(e.target.files[0])
+      }
+  }
+      
+      
+  const handleImageSubmit = () => {
+      const imageRef = ref(storage, "image")
+          
+      uploadBytes(imageRef, image).then(() => {
+          
+          getDownloadURL(imageRef).then(url => {
+                setImgUrl(url)
+
+              
+          }).catch(error => {
+              console.log(error.message);
+          })
+          
+      }).catch(error => {
+          console.log(error.message);
+      })
+
+  }
+  
+
+  
+
   const toggleEditImgLabel = () => {
     setIsActive(!isActive)
   }
 
-  const editProfilePic = (e) => {
-      
-      if(e.target.files[0]){
-          setImage(e.target.files[0])
-        }
-}
-        
-        
-    const handleImageSubmit = () => {
-        const imageRef = ref(storage, "image")
-            
-        uploadBytes(imageRef, image).then(() => {
-            
-            getDownloadURL(imageRef).then(url => {
-    
-                setImgUrl(url)
-            }).catch(error => {
-                console.log(error.message);
-            })
-            setIsLoading(false)
-        }).catch(error => {
-            console.log(error.message);
-        })
-  }
 
 
 
@@ -160,7 +173,7 @@ const AccountModal = ({isOpen, onClose}) => {
                                 <div className='flex gap-4 items-center'>
                                     <Avatar src={imgUrl}  />
                                     <input type="file" onChange={(e) => editProfilePic(e)} className='w-36 file:text-white file:rounded file:bg-blue-500 file:border-none file:py-1 file:cursor-pointer file:hover:bg-blue-100 file:hover:text-blue-500' />
-                                    <button className='text-white bg-blue-500 font-bold px-3 py-1 rounded hover:text-blue-500 hover:bg-blue-100' onClick={handleImageSubmit}>{isLoading ? "Loading..." : "Save"} </button>
+                                    <button className='text-white bg-blue-500 font-bold px-3 py-1 rounded hover:text-blue-500 hover:bg-blue-100' onClick={handleImageSubmit}>Save</button>
                                 </div>
                             </div>
                             

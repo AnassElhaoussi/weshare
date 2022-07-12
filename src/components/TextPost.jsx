@@ -4,7 +4,7 @@ import { Avatar } from '@chakra-ui/react'
 import { faEarth } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {motion} from 'framer-motion'
-import {db} from '../firebase'
+import {auth, db} from '../firebase'
 import { useAuthContext } from '../context/AuthContext'
 import { useAnimation } from 'framer-motion'
 import firebase from 'firebase/compat/app'
@@ -17,14 +17,12 @@ const TextPost = ({isClicked, setIsClicked}) => {
     const animation = useAnimation()
     
     const sharePost = async () => {
-        const {photoURL, displayName} = user
-
+        
+        console.log(user.photoURL);
       
         await db.collection('posts').add({
             text: postText,
-            displayName,
-            photoURL,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            
         })
 
 

@@ -16,17 +16,20 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <ChakraProvider>
 
-              <div className='font-body'>
-                  <Routes>
-                    <Route path='/' element={<Login />} />
-                    <Route path='/weshare' element={<WeShare />} />
-                    <Route path='/signup' element={<SignUp  />} />
-                  </Routes>
-              </div>
 
-        </ChakraProvider>
+          <ChakraProvider>
+
+                <div className='font-body'>
+                    <Routes>
+                      <Route path='/' element={<Login />} />
+                      <Route path='/weshare' element={<WeShare />} />
+                      <Route path='/signup' element={<SignUp  />} />
+                    </Routes>
+                </div>
+
+          </ChakraProvider>
+
       </AuthProvider>
     </Router>
   );
