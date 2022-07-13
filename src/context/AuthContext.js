@@ -14,6 +14,8 @@ export const AuthProvider = ({children}) => {
     const navigate  = useNavigate()
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState()
+    const usersArr = []
+    
 
     
     
@@ -23,9 +25,16 @@ export const AuthProvider = ({children}) => {
                 navigate('/weshare')
                 setUser(user)
                 setLoading(false)
+                usersArr.push(user.displayName)
+                console.log(usersArr);
+            
+                
+         
+
             } else {
                 navigate('/')
                 setLoading(false)
+            
             }
         })
     }, [])

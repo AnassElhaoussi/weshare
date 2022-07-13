@@ -21,6 +21,7 @@ import { useAuthContext } from '../context/AuthContext'
 import { auth } from '../firebase'
 import { storage } from '../firebase'
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
+import { useEditProfileContext } from '../context/EditProfileContext'
 
 
 
@@ -30,44 +31,15 @@ const AccountModal = ({isOpen, onClose}) => {
   const user = useAuthContext()
   const [edit, setEdit] = useState(false)
   const [editInput, setEditInput] = useState(user.displayName)
-  const [image, setImage] = useState()
-  const [isActive, setIsActive] = useState(false)
-  const animation = useAnimation()
-  const [imgUrl, setImgUrl] = useState(auth.currentUser.photoURL)
   const [invalidUserName, setInvalidUserName] = useState(false)
+ 
 
-
-
-
-  useEffect(() => {
-    if(isActive){
-        animation.start({
-            x: 10,
-            y: -10
-        })
-    } else {
-        animation.start({
-            x: -10,
-            y: 10
-        })
-    }
-
-  }, [isActive])
 
   useEffect(() => {
     auth.currentUser.updateProfile({
         displayName: editInput,
     })
   }, [editInput])
-
-  useEffect(() => {
-    if(auth.currentUser.uid === user.uid){
-        auth.currentUser.updateProfile({
-            photoURL: imgUrl
-        })
-    }
-
-  }, [imgUrl])
 
 
   const editUserName = () => {
@@ -85,41 +57,7 @@ const AccountModal = ({isOpen, onClose}) => {
     }
   }
 
-  const editProfilePic = (e) => {
   
-    if(e.target.files[0]){
-        setImage(e.target.files[0])
-      }
-  }
-      
-      
-  const handleImageSubmit = () => {
-      const imageRef = ref(storage, "image")
-          
-      uploadBytes(imageRef, image).then(() => {
-          
-          getDownloadURL(imageRef).then(url => {
-                setImgUrl(url)
-
-              
-          }).catch(error => {
-              console.log(error.message);
-          })
-          
-      }).catch(error => {
-          console.log(error.message);
-      })
-
-  }
-  
-
-  
-
-  const toggleEditImgLabel = () => {
-    setIsActive(!isActive)
-  }
-
-
 
 
 
@@ -137,9 +75,9 @@ const AccountModal = ({isOpen, onClose}) => {
                     <div className='flex flex-col items-center gap-4 py-6'>
 
                         <div className='flex gap-2 text-center'>
-                            <Avatar src={imgUrl} />
+                            <Avatar src={user.photoURL} />
                             <button>
-                                <FontAwesomeIcon icon={faEdit} className='text-blue-500' onClick={toggleEditImgLabel} />
+                                <FontAwesomeIcon icon={faEdit} className='text-blue-500' />
                             </button>
 
                         </div>
@@ -163,22 +101,7 @@ const AccountModal = ({isOpen, onClose}) => {
                             <p className='text-blue-500'>Email : </p>
                             <h2>{user.email}</h2>
                         </div>
-                        <motion.div animate={animation} className={isActive ? ' shadow-md bg-gray-50 absolute xl:left-60 xl:top-10 sm:left-30 sm:top-10 rounded py-2 px-3' : 'hidden'}>
-                            <div className='flex flex-col gap-6 relative'>
-
-                                <div className='flex items-center'>           
-                                    <h1>Edit Profile Picture</h1>
-                                    <FontAwesomeIcon icon={faClose} onClick={() => setIsActive(false)} className='absolute right-0 hover:bg-gray-300 py-1 px-2 rounded-md' />
-                                </div>
-                                <div className='flex gap-4 items-center'>
-                                    <Avatar src={imgUrl}  />
-                                    <input type="file" onChange={(e) => editProfilePic(e)} className='w-36 file:text-white file:rounded file:bg-blue-500 file:border-none file:py-1 file:cursor-pointer file:hover:bg-blue-100 file:hover:text-blue-500' />
-                                    <button className='text-white bg-blue-500 font-bold px-3 py-1 rounded hover:text-blue-500 hover:bg-blue-100' onClick={handleImageSubmit}>Save</button>
-                                </div>
-                            </div>
-                            
-                    
-                        </motion.div>
+                        
                     </div>
                 </PopoverBody>
                 <PopoverFooter border='0'>

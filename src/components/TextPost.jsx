@@ -19,9 +19,17 @@ const TextPost = ({isClicked, setIsClicked}) => {
     const sharePost = async () => {
         
         console.log(user.photoURL);
+
+        const {displayName, photoURL, uid} = user
       
         await db.collection('posts').add({
             text: postText,
+            displayName,
+            photoURL,
+            uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            date: new Date().toString().substring(0, 33)
+            
             
         })
 
