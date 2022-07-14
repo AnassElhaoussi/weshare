@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Messages from './Messages'
 import { useAuthContext } from '../context/AuthContext'
 import TextPost from './TextPost'
@@ -8,6 +8,8 @@ import { auth, db } from '../firebase'
 import { Avatar } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEarth } from '@fortawesome/free-solid-svg-icons'
+import MembersCarousel from './MembersCarousel'
+
 
 
 const Home = () => {
@@ -15,12 +17,8 @@ const Home = () => {
   const user = useAuthContext()
   const [isClicked, setIsClicked] = useState(false)
   const [posts, setPosts] = useState([])
-  const [photoURLExists, setPhotoURLExists] = useState(false)
-  const namesArr = []
-  const photoUrlArr = []
-  let newPhotoUrlArr
-  
-  console.log(user);
+  const [users, setUsers] = useState([])
+
 
   useEffect(() => {
       db.collection('posts').orderBy('createdAt').onSnapshot(snapshot => {
@@ -31,32 +29,24 @@ const Home = () => {
         )
 
       })
-
-      console.log(posts);
   }, [])
 
-  
-  posts.filter(post => post.uid !== auth.currentUser.uid).map(({displayName}) => {
-    namesArr.push(displayName)
-  })
-
-  const newNamesArr = [...new Set(namesArr)]
-
-  posts.filter(post => post.uid !== auth.currentUser.uid).map(({photoURL}) => {
-    photoUrlArr.push(photoURL)
-
-    if(photoURL){
-      setPhotoURLExists(true)
-    }
-  })
-
-  if(photoURLExists){
-    newPhotoUrlArr = [...new Set(photoUrlArr)]
-  }
-
-  
-  
-
+  useEffect(() => {
+    db.collection('users').onSnapshot(snapshot => {
+      setUsers(
+        snapshot.docs.map(doc => doc.data())
+        )
+      })
+      
+    }, [])
+    
+    useEffect(() => {
+      db.collection('users').add({
+        username: user.displayName,
+        profilePicture: user.photoURL
+      })
+      
+    }, [])
   
 
   return (
@@ -87,21 +77,7 @@ const Home = () => {
             </div>
           )).reverse()}
         </div>
-        <div className='flex flex-col gap-8 w-3/4 text-center bg-blue-500 text-white rounded-md py-4 px-2'>
-           <h1 className='text-xl font-bold'>Members</h1>
-           <div className='flex flex-col gap-3 items-center justify-center'>
-            <div className='flex gap-4'>
-              {newPhotoUrlArr.map(photo => (
-                <Avatar src={photo} />
-              ))}
-            </div>
-            <div className='flex gap-4'>
-                {newNamesArr.map(name => (
-                  <h1>{name}</h1>
-                ))}
-            </div>
-           </div>
-        </div>
+        <MembersCarousel users={users} />
  
       </div>
     </div>

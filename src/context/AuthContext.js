@@ -3,6 +3,7 @@ import React, {useState, useEffect, useContext, createContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import Loader from "../components/Loader";
+import { db } from "../firebase";
 
 
 const AuthContext = createContext()
@@ -14,10 +15,7 @@ export const AuthProvider = ({children}) => {
     const navigate  = useNavigate()
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState()
-    const usersArr = []
-    
 
-    
     
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -25,11 +23,6 @@ export const AuthProvider = ({children}) => {
                 navigate('/weshare')
                 setUser(user)
                 setLoading(false)
-                usersArr.push(user.displayName)
-                console.log(usersArr);
-            
-                
-         
 
             } else {
                 navigate('/')
