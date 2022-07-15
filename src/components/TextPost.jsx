@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from 'react'
 import { Avatar } from '@chakra-ui/react'
-import { faEarth } from '@fortawesome/free-solid-svg-icons'
+import { faEarth, faLike } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {motion} from 'framer-motion'
 import {auth, db} from '../firebase'
@@ -11,7 +11,7 @@ import firebase from 'firebase/compat/app'
 import { weshareTags } from '../constants/Guide'
 
 
-const TextPost = ({isClicked, setIsClicked}) => {
+const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, setLikesCount}) => {
     
     const [postText, setPostText] = useState("")
     const [weshareTag, setWeshareTag] = useState("")
@@ -30,6 +30,7 @@ const TextPost = ({isClicked, setIsClicked}) => {
         await db.collection('posts').add({
             text: postText,
             tag: weshareTag,
+            likes: likesCount,
             displayName,
             photoURL,
             uid,

@@ -7,7 +7,7 @@ import TextPost from './TextPost'
 import { auth, db } from '../firebase'
 import { Avatar } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEarth } from '@fortawesome/free-solid-svg-icons'
+import { faEarth, faHeart } from '@fortawesome/free-solid-svg-icons'
 import MembersCarousel from './MembersCarousel'
 import Guide from './Guide'
 import { useSearchPostsContext } from '../context/SearchPostsContext'
@@ -22,7 +22,10 @@ const Home = () => {
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
   const [searchValue, setSearchValue] = useSearchPostsContext()
+  const [isLiked, setIsLiked] = useState(false)
+  const [likesCount, setLikesCount] = useState(0)
   const location = useLocation()
+  
 
 
   useEffect(() => {
@@ -53,7 +56,15 @@ const Home = () => {
       })
       
     }, [])
-  
+
+    useEffect(() => {
+      if(isLiked){
+        setLikesCount(likesCount + 1)
+      } else {
+        setLikesCount(likesCount - 1)
+      }
+    }, [isLiked])
+
 
   return (
           <div className='flex flex-col gap-10 flex-shrink w-3/4'>
@@ -64,7 +75,14 @@ const Home = () => {
               </button>
 
             {isClicked && (
-                <TextPost isClicked={isClicked} setIsClicked={setIsClicked} />
+                <TextPost 
+
+                 isClicked={isClicked}
+                 setIsClicked={setIsClicked} 
+                 isLiked={isLiked}
+                 setIsLiked={setIsLiked}
+                 likesCount={likesCount} 
+                 setLikesCount={setLikesCount} />
             )}
             <div className='flex flex-col-reverse gap-5'> 
               {location.pathname === "/weshare" && (
@@ -80,7 +98,13 @@ const Home = () => {
                         </div>
                       </div>
                       <p className='text-xl'>{text} </p>
-                      <span className='text-xs text-end text-gray-400'>{date}</span>
+                      <div className='flex justify-between px-3'>
+                        <div className='flex gap-3 items-center'>
+                          <FontAwesomeIcon icon={faHeart} className='text-blue-500 cursor-pointer' />
+                          <h3 onClick={() => setLikesCount(likesCount + 1)}>{likesCount} </h3>
+                        </div>
+                        <span className='text-xs text-gray-400'>{date}</span>
+                      </div>
                     </div>
                   )).reverse()}
                 </div>
