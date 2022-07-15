@@ -12,6 +12,7 @@ import AccountModal from './AccountModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faCompass, faMessage, faMoon, faGear, faSignOut, faUser, faSun } from "@fortawesome/free-solid-svg-icons";
 import { auth } from '../firebase';
+import {Link} from 'react-router-dom'
 
 
 
@@ -32,10 +33,14 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
               <FontAwesomeIcon icon={faHouse} />
               <h3 className='lg:flex hidden'>Home</h3>
             </div>
-            <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
-              <FontAwesomeIcon icon={faMessage} />
-              <h3 className='lg:flex hidden'>Messages</h3>
-            </div>
+              <Link to='/weshare/messages'>
+                <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
+                    <FontAwesomeIcon icon={faMessage} />
+                    <h3 className='lg:flex hidden'>
+                      Messages
+                    </h3>
+                </div>
+              </Link>
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
               <FontAwesomeIcon icon={darkTheme ? faSun : faMoon} />
               <h3 className='lg:flex hidden select-none' onClick={() => setDarkTheme(!darkTheme) }>{darkTheme ? "Light Mode" : "Dark mode"} </h3>

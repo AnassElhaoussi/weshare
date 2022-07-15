@@ -6,7 +6,8 @@ import {Login, SignUp} from './components'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import WeShare from './WeShare'
 import { AuthProvider } from './context/AuthContext'
-import { EditProfileProvider } from './context/EditProfileContext'
+import { SearchPostsProvider } from './context/SearchPostsContext'
+import Messages from './components/Messages'
 
 
 function App() {
@@ -17,17 +18,20 @@ function App() {
     <Router>
 
         <AuthProvider>
+          <SearchPostsProvider>
               <ChakraProvider>
 
                     <div className='font-body'>
                         <Routes>
                           <Route path='/' element={<Login />} />
                           <Route path='/weshare' element={<WeShare />} />
+                          <Route path='/weshare/messages' element={<Messages />} />
                           <Route path='/signup' element={<SignUp  />} />
                         </Routes>
                     </div>
 
               </ChakraProvider>
+          </SearchPostsProvider>
 
         </AuthProvider>
 

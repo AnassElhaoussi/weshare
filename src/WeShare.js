@@ -1,6 +1,7 @@
 
 import React, {useState} from 'react'
 import { Home, Explore, NavBar, SideBar } from './components'
+import Messages from './components/Messages'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 
@@ -14,6 +15,8 @@ const WeShare = () => {
              <div className='flex xl:gap-60 lg:gap-56 md:gap-44 sm:gap-36 gap-28'>
                 <SideBar />
                 <Home />
+               
+
              </div>
         </div>
 
