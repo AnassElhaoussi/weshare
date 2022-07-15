@@ -33,10 +33,6 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
               <h3 className='lg:flex hidden'>Home</h3>
             </div>
             <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
-              <FontAwesomeIcon icon={faCompass} />
-              <h3 className='lg:flex hidden'>Explore</h3>
-            </div>
-            <div className='flex gap-5 items-center hover:text-blue-500 transition-colors'>
               <FontAwesomeIcon icon={faMessage} />
               <h3 className='lg:flex hidden'>Messages</h3>
             </div>

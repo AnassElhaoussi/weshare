@@ -29,37 +29,7 @@ import { useEditProfileContext } from '../context/EditProfileContext'
 const AccountModal = ({isOpen, onClose}) => {
 
   const user = useAuthContext()
-  const [edit, setEdit] = useState(false)
-  const [editInput, setEditInput] = useState(user.displayName)
-  const [invalidUserName, setInvalidUserName] = useState(false)
  
-
-
-  useEffect(() => {
-    auth.currentUser.updateProfile({
-        displayName: editInput,
-    })
-  }, [editInput])
-
-
-  const editUserName = () => {
-    setEdit(true)
-  }
-  
-
-  const handleUsernameEdit = () => {
-    if(editInput.length <= 14 && editInput !== ""){
-        setEdit(false)
-
-        setInvalidUserName(false)
-    } else {
-        setInvalidUserName(true)
-    }
-  }
-
-  
-
-
 
   return (
 
@@ -76,26 +46,11 @@ const AccountModal = ({isOpen, onClose}) => {
 
                         <div className='flex gap-2 text-center'>
                             <Avatar src={user.photoURL} />
-                            <button>
-                                <FontAwesomeIcon icon={faEdit} className='text-blue-500' />
-                            </button>
-
                         </div>
                         <div className='flex gap-2 items-center justify-center'>
                             <p className='text-blue-500 select-none'>Username : </p>
-                            <h2>{editInput}</h2>
-                            <button>
-                                <FontAwesomeIcon icon={faEdit} className={edit ? 'hidden' : 'flex cursor-pointer text-blue-500 '} onClick={editUserName} />
-                            </button>
-                        </div>
-                        <div className={edit ? 'flex flex-col gap-2 items-staart' : 'hidden'}>
-                            <div className='flex gap-3 items-center'>
-                                <input type="text" className='outline-none bg-gray-100 px-4 py-1 rounded' placeholder='Edit Username' value={editInput} onChange={(e) => setEditInput(e.target.value)} />
-                                <FontAwesomeIcon icon={faCheck} className='cursor-pointer' onClick={handleUsernameEdit} />
-                            </div>
-                            {invalidUserName && (
-                                <p className='text-red-600 text-sm'>Invalid Username!</p>
-                            )}
+                            <h2>{user.displayName}</h2>
+            
                         </div>
                         <div className='flex gap-2 items-center justify-center '>
                             <p className='text-blue-500'>Email : </p>
