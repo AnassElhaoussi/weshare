@@ -9,6 +9,7 @@ import { useAuthContext } from '../context/AuthContext'
 import { useAnimation } from 'framer-motion'
 import firebase from 'firebase/compat/app'
 import { weshareTags } from '../constants/Guide'
+import { addDoc, collection } from 'firebase/firestore'
 
 
 const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, setLikesCount}) => {
@@ -20,14 +21,12 @@ const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, set
     const animation = useAnimation()
     
     const sharePost = async () => {
-        
-        console.log(user.photoURL);
 
         const {displayName, photoURL, uid} = user
 
       if(weshareTag !== "" && postText !== ""){
 
-        await db.collection('posts').add({
+        await addDoc(collection(db, 'posts'), {
             text: postText,
             tag: weshareTag,
             likes: likesCount,
@@ -38,7 +37,7 @@ const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, set
             date: new Date().toString().substring(0, 33)
             
             
-        }) 
+        })
   
   
         setPostText()
@@ -51,8 +50,6 @@ const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, set
       }
       
     }
-
-    console.log(weshareTag);
     
     useEffect(() => {
         animation.start({
