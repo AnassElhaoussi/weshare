@@ -12,11 +12,12 @@ import { weshareTags } from '../constants/Guide'
 import { addDoc, collection } from 'firebase/firestore'
 
 
-const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, setLikesCount}) => {
+const TextPost = ({isClicked, setIsClicked}) => {
     
-    const [postText, setPostText] = useState("")
+    
     const [weshareTag, setWeshareTag] = useState("")
     const [error, setError] = useState(false)
+    const [postText, setPostText] = useState("")
     const user = useAuthContext()
     const animation = useAnimation()
     
@@ -29,7 +30,6 @@ const TextPost = ({isClicked, setIsClicked, isLiked, setIsLiked, likesCount, set
         await addDoc(collection(db, 'posts'), {
             text: postText,
             tag: weshareTag,
-            likes: likesCount,
             displayName,
             photoURL,
             uid,

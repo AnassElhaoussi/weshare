@@ -21,11 +21,10 @@ const Home = () => {
 
   const user = useAuthContext()
   const [isClicked, setIsClicked] = useState(false)
+  const [edit, setEdit] = useState(false)
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
   const [searchValue, setSearchValue] = useSearchPostsContext()
-  const [isLiked, setIsLiked] = useState(false)
-  const [likesCount, setLikesCount] = useState(0)
   const location = useLocation()
   
 
@@ -66,18 +65,18 @@ const Home = () => {
       
     }, [])
 
-    useEffect(() => {
-      if(isLiked){
-        setLikesCount(likesCount + 1)
-      } else {
-        setLikesCount(likesCount - 1)
-      }
-    }, [isLiked])
 
-    const handleDelete = async (id, uid) => {
+    const handleDelete = async (id) => {
         await db.collection('posts').doc(id).delete()
     }
 
+    const handleUpdate = (uid) => {
+      if(uid === auth.currentUser.uid){
+        setEdit(!edit)
+      }
+    }
+
+  
 
   return (
           <div className='flex flex-col gap-10 flex-shrink w-3/4'>
@@ -91,15 +90,13 @@ const Home = () => {
                 <TextPost 
 
                  isClicked={isClicked}
-                 setIsClicked={setIsClicked} 
-                 isLiked={isLiked}
-                 setIsLiked={setIsLiked}
-                 likesCount={likesCount} 
-                 setLikesCount={setLikesCount} />
+                 setIsClicked={setIsClicked}
+    
+                  />
             )}
             <div className='flex flex-col-reverse gap-5'> 
               {location.pathname === "/weshare" && (
-                <div className='flex flex-col gap-5'>
+                <div className='flex flex-col gap-5 relative'>
                   {posts.filter(({data, id}) => data.tag?.toLowerCase().includes(searchValue?.toLowerCase())).map(({data, id}) => (
                     <div className='flex flex-col gap-8 rounded-md bg-gray-100 p-5 md:w-3/4 relative'>
                       <div className='flex gap-3 items-center'>
@@ -109,19 +106,22 @@ const Home = () => {
                             <h3 className='text-xs text-blue-500'>Your post is seen by everyone <FontAwesomeIcon icon={faEarth} /> </h3>
                             <button className="bg-yellow-300 py-1 px-3 text-xs font-bold rounded-2xl w-fit">{data.tag}</button>
                         </div>
-                  
+                
+                      </div>
+                      <p className='text-xl'>{data.text} </p>
+                      <div className='flex justify-between flex-wrap gap-5'>
+                        <span className='text-xs text-gray-400'>{data.date}</span>
                         {data.uid === auth.currentUser.uid && (
-                          <div className='flex gap-5 absolute right-10 top-5 text-blue-500'>
-                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' />
-                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id, data.uid)}} />    
+                          <div className='flex gap-5 right-10 top-5 text-blue-500'>
+                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => handleUpdate(data.uid)} />
+                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
                           </div>
                         )}
                         
                       </div>
-                      <p className='text-xl'>{data.text} </p>
-                      <span className='text-xs text-gray-400'>{data.date}</span>
                     </div>
-                  )).reverse()}
+                  ))?.reverse()}
+                  
                 </div>
               )}
               <MembersCarousel users={users} />
