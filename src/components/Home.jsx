@@ -12,7 +12,7 @@ import MembersCarousel from './MembersCarousel'
 import Guide from './Guide'
 import { useSearchPostsContext } from '../context/SearchPostsContext'
 import { useLocation } from 'react-router-dom'
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 
 
 
@@ -74,8 +74,8 @@ const Home = () => {
       }
     }, [isLiked])
 
-    const handleDelete = async () => {
-      
+    const handleDelete = async (id, uid) => {
+        await db.collection('posts').doc(id).delete()
     }
 
 
@@ -100,24 +100,26 @@ const Home = () => {
             <div className='flex flex-col-reverse gap-5'> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5'>
-                  {posts.filter((post) => post.data.tag?.toLowerCase().includes(searchValue?.toLowerCase())).map((post) => (
+                  {posts.filter(({data, id}) => data.tag?.toLowerCase().includes(searchValue?.toLowerCase())).map(({data, id}) => (
                     <div className='flex flex-col gap-8 rounded-md bg-gray-100 p-5 md:w-3/4 relative'>
                       <div className='flex gap-3 items-center'>
-                        <Avatar src={post.data.photoURL} />
+                        <Avatar src={data.photoURL} />
                         <div className='flex flex-col gap-1'>
-                            <h2>@{post.data.displayName}</h2>
+                            <h2>@{data.displayName}</h2>
                             <h3 className='text-xs text-blue-500'>Your post is seen by everyone <FontAwesomeIcon icon={faEarth} /> </h3>
-                            <button className="bg-yellow-300 py-1 px-3 text-xs font-bold rounded-2xl w-fit">{post.data.tag}</button>
+                            <button className="bg-yellow-300 py-1 px-3 text-xs font-bold rounded-2xl w-fit">{data.tag}</button>
                         </div>
                   
-                        <div className='flex gap-5 absolute right-10 top-5 text-blue-500'>
-                          <FontAwesomeIcon icon={faEdit} className='cursor-pointer' />
-                          <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={handleDelete} />    
-                        </div>
+                        {data.uid === auth.currentUser.uid && (
+                          <div className='flex gap-5 absolute right-10 top-5 text-blue-500'>
+                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' />
+                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id, data.uid)}} />    
+                          </div>
+                        )}
                         
                       </div>
-                      <p className='text-xl'>{post.data.text} </p>
-                      <span className='text-xs text-gray-400'>{post.data.date}</span>
+                      <p className='text-xl'>{data.text} </p>
+                      <span className='text-xs text-gray-400'>{data.date}</span>
                     </div>
                   )).reverse()}
                 </div>
