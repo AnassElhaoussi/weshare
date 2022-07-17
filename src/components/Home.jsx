@@ -24,6 +24,8 @@ const Home = () => {
   const [edit, setEdit] = useState(false)
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
+  const [postText, setPostText] = useState('')
+  const scroll = useRef()
   const [searchValue, setSearchValue] = useSearchPostsContext()
   const location = useLocation()
   
@@ -70,10 +72,10 @@ const Home = () => {
         await db.collection('posts').doc(id).delete()
     }
 
-    const handleUpdate = (uid) => {
-      if(uid === auth.currentUser.uid){
-        setEdit(!edit)
-      }
+    const editPost = (postText) => {
+      setEdit(true)
+      setPostText(postText)
+      scroll.current.scrollIntoView({behavior : 'smooth'})
     }
 
   
@@ -91,9 +93,11 @@ const Home = () => {
 
                  isClicked={isClicked}
                  setIsClicked={setIsClicked}
-    
-                  />
+                 
+                 />
             )}
+                
+            
             <div className='flex flex-col-reverse gap-5'> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
@@ -108,24 +112,31 @@ const Home = () => {
                         </div>
                 
                       </div>
-                      <p className='text-xl'>{data.text} </p>
+                      <p className='text-xl'>{data.text}</p>
                       <div className='flex justify-between flex-wrap gap-5'>
                         <span className='text-xs text-gray-400'>{data.date}</span>
                         {data.uid === auth.currentUser.uid && (
                           <div className='flex gap-5 right-10 top-5 text-blue-500'>
-                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => handleUpdate(data.uid)} />
+                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => {editPost(data.text)}} />
                             <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
                           </div>
                         )}
                         
+                      </div>
+                      <div>
                       </div>
                     </div>
                   ))?.reverse()}
                   
                 </div>
               )}
+              {edit && (
+              <div className='relative' ref={scroll}>
+                <input type="text" className='absolute' value={postText} />
+              </div>
+              )}
               <MembersCarousel users={users} />
-      
+
             </div>
             <Guide />
           </div>
