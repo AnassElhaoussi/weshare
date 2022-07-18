@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Home, Explore, NavBar, SideBar } from './components'
 import Messages from './components/Messages'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -7,11 +7,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 const WeShare = () => {
 
-  const [darkTheme, setDarkTheme] = useState(false)
+  const [darkTheme, setDarkTheme] = useState(localStorage.getItem('darktheme') === 'true')
+
+
 
   return (
    <div className={darkTheme ? "dark" : ""}>
-      <div className='dark:bg-gray-900'>
+      <div className='dark:bg-gray-900 transition-colors'>
          <div className='h-screen'>
             <div className='flex flex-col gap-10 px-10 dark:bg-gray-900'>
                <NavBar />

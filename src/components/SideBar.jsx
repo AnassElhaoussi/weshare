@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import {
   Menu,
@@ -23,6 +23,10 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
   const handleSignOut = () => {
     auth.signOut()
   }
+
+  useEffect(() => {
+    localStorage.setItem('darktheme', darkTheme)
+   }, [darkTheme])
 
   return (
     
