@@ -51,7 +51,7 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
                     <FontAwesomeIcon icon={faGear} className='' />
                   </MenuButton>
                   <h3 className='lg:flex hidden'>Settings</h3>
-                  <MenuList className=''>
+                  <MenuList className='dark:bg-gray-800' border='0'>
                     <MenuItem className='flex gap-3' onClick={onToggle}>
                       <FontAwesomeIcon icon={faUser} />
                       <h3>Account</h3>

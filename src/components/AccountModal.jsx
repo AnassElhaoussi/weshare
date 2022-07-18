@@ -35,7 +35,7 @@ const AccountModal = ({isOpen, onClose}) => {
 
 
         <Popover isOpen={isOpen} onClose={onClose}  >
-            <PopoverContent className='' border="0">
+            <PopoverContent className='dark:bg-gray-800' border="0">
                 <PopoverArrow />
                 <PopoverHeader border='0'>
                     <h1>Account</h1>
@@ -48,19 +48,19 @@ const AccountModal = ({isOpen, onClose}) => {
                             <Avatar src={user.photoURL} />
                         </div>
                         <div className='flex gap-2 items-center justify-center'>
-                            <p className='text-blue-500 select-none'>Username : </p>
+                            <p className='text-blue-500 dark:text-blue-700 select-none'>Username : </p>
                             <h2>{user.displayName}</h2>
             
                         </div>
                         <div className='flex gap-2 items-center justify-center '>
-                            <p className='text-blue-500'>Email : </p>
+                            <p className='text-blue-500 dark:text-blue-700'>Email : </p>
                             <h2>{user.email}</h2>
                         </div>
                         
                     </div>
                 </PopoverBody>
                 <PopoverFooter border='0'>
-                    <button onClick={onClose} className='px-4 py-1 rounded text-white bg-blue-500 font-bold'>Close</button>
+                    <button onClick={onClose} className='px-4 py-1 rounded text-white dark:text-gray-300 bg-blue-500 dark:bg-blue-700 font-bold'>Close</button>
                 </PopoverFooter>
             </PopoverContent>
 
