@@ -60,13 +60,13 @@ const TextPost = ({isClicked, setIsClicked}) => {
       },[isClicked])
 
   return (
-        <motion.div animate={animation} initial={{y: 20}} className='absolute z-50 top-20 flex flex-col gap-6 md:w-1/3 w-2/3 bg-gray-100 p-4 rounded-md shadow-lg'>
+        <motion.div animate={animation} initial={{y: 20}} className='absolute z-50 top-20 flex flex-col gap-6 md:w-1/3 w-2/3 bg-gray-100 dark:bg-gray-800 p-4 rounded-md shadow-lg'>
                 <div className='flex flex-col gap-4 items-start relative'>
                   <div className='flex gap-4 items-center'> 
                     <Avatar src={user.photoURL} />
                     <div className='flex flex-col gap-1'>
-                      <h1 className='font-bold'>{`@${user.displayName}`}</h1>
-                      <p className='text-xs text-blue-500'>
+                      <h1 className='font-bold dark:text-gray-300'>{`@${user.displayName}`}</h1>
+                      <p className='text-xs text-blue-500 dark:text-blue-700'>
                         <FontAwesomeIcon icon={faEarth} className='mr-2' />
                         Everyone can see your post
                       </p>
@@ -75,7 +75,7 @@ const TextPost = ({isClicked, setIsClicked}) => {
                   </div>
                   <div className='flex flex-wrap gap-1 justify-start font-bold'>
                         {weshareTags.map(tag => (
-                          <button className='bg-yellow-300 py-1 text-xs w-fit px-3 rounded-2xl hover:scale-105 transition-all' onClick={() => setWeshareTag(tag)}>
+                          <button className='bg-yellow-300 dark:bg-yellow-400 py-1 text-xs w-fit px-3 rounded-2xl hover:scale-105 transition-all' onClick={() => setWeshareTag(tag)}>
                             {tag}
                           </button>
                         ))}
@@ -89,18 +89,18 @@ const TextPost = ({isClicked, setIsClicked}) => {
                   
                 </div>
                 <div className=''>
-                  <textarea name="" id="" cols="30" rows="10" className='outline-none bg-gray-100 rounded-lg py-2 px-4 h-32 w-full text-xl'
+                  <textarea name="" id="" cols="30" rows="10" className='outline-none bg-gray-100 dark:bg-gray-800 dark:text-gray-300 rounded-lg py-2 px-4 h-32 w-full text-xl'
                    placeholder='Say something nice'
                    value={postText}
                    onChange={(e) => setPostText(e.target.value)}
                    ></textarea>
-                   <button className={weshareTag !== "" ? "bg-blue-500 text-white right-0 py-1 px-3 text-xs font-bold rounded-2xl" : "hidden"}>{weshareTag} </button>
+                   <button className={weshareTag !== "" ? "bg-blue-500 dark:bg-blue-700 text-white dark:text-gray-300 right-0 py-1 px-3 text-xs font-bold rounded-2xl" : "hidden"}>{weshareTag} </button>
                 </div>
-                <div className='flex justify-between text-white font-bold'>
-                  <button className='text-white bg-blue-500 py-1 px-3 rounded hover:scale-105 transition-all' 
+                <div className='flex justify-between text-white dark:text-gray-300 font-bold'>
+                  <button className='text-white bg-blue-500 dark:bg-blue-700 py-1 px-3 rounded hover:scale-105 transition-all' 
                   onClick={sharePost}
                   >Share</button>
-                  <button className='text-white bg-blue-500 py-1 px-3 rounded hover:scale-105 transition-all' onClick={() => setIsClicked(false)}>Cancel</button>
+                  <button className='text-white bg-blue-500 dark:bg-blue-700 py-1 px-3 rounded hover:scale-105 transition-all' onClick={() => setIsClicked(false)}>Cancel</button>
                 </div>
         </motion.div>
 

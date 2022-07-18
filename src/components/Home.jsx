@@ -86,7 +86,7 @@ const Home = () => {
 
   return (
           <div className='flex flex-col gap-10 flex-shrink w-3/4'>
-              <button className='bg-gray-100 py-2 px-4 sm:w-1/2 text-gray-400 shadow-md rounded cursor-pointer flex-shrink-0'
+              <button className='bg-gray-100 dark:bg-gray-700 py-2 px-4 sm:w-1/2 text-gray-400 shadow-md rounded cursor-pointer flex-shrink-0'
               onClick={() => setIsClicked(!isClicked)}
               >
                 {`What's on your mind, ${user.displayName}?`}
@@ -106,24 +106,24 @@ const Home = () => {
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
                   {posts.filter(({data, id}) => data.tag?.toLowerCase().includes(searchValue?.toLowerCase())).map(({data, id}) => (
-                    <div className='flex flex-col gap-8 rounded-md bg-gray-100 p-5 md:w-3/4 relative'>
+                    <div className='flex flex-col gap-8 rounded-md bg-gray-100 dark:bg-gray-800 p-5 md:w-3/4 relative'>
                       <div className='flex justify-between flex-wrap gap-5'>
                         <div className='flex gap-3 items-center'>
                           <Avatar src={data.photoURL} />
                           <div className='flex flex-col gap-1'>
-                              <h2>@{data.displayName}</h2>
-                              <h3 className='text-xs text-blue-500'>Your post is seen by everyone <FontAwesomeIcon icon={faEarth} /> </h3>
-                              <button className="bg-yellow-300 py-1 px-3 text-xs font-bold rounded-2xl w-fit">{data.tag}</button>
+                              <h2 className='dark:text-gray-300'>@{data.displayName}</h2>
+                              <h3 className='text-xs text-blue-500 dark:text-blue-700'>Your post is seen by everyone <FontAwesomeIcon icon={faEarth} /> </h3>
+                              <button className="bg-yellow-300 dark:bg-yellow-400 py-1 px-3 text-xs font-bold rounded-2xl w-fit mt-4">{data.tag}</button>
                           </div>
                   
                         </div>
-                        <h1 className='text-blue-500 sm:text-sm text-xs'>{data.isEdited && 'Edited Post'}</h1>
+                        <h1 className='text-blue-500 dark:text-blue-700 sm:text-sm text-xs'>{data.isEdited && 'Edited Post'}</h1>
                       </div>
-                      <p className='text-xl'>{data.text}</p>
+                      <p className='text-xl dark:text-gray-300'>{data.text}</p>
                       <div className='flex justify-between flex-wrap gap-5'>
                         <span className='text-xs text-gray-400'>{data.date}</span>
                         {data.uid === auth.currentUser.uid && (
-                          <div className='flex gap-5 right-10 top-5 text-blue-500'>
+                          <div className='flex gap-5 right-10 top-5 text-blue-500 dark:text-blue-700'>
                             <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => {updatePost(id, data.text, data.tag)}} />
                             <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
                           </div>
@@ -137,8 +137,9 @@ const Home = () => {
                 </div>
               )}
               {edit && (
-                <EditPost scroll={scroll} setEdit={setEdit} docId={docId} editText={editText} editTag={editTag}  /> 
+                <EditPost setEdit={setEdit} docId={docId} editText={editText} editTag={editTag}  /> 
               )}
+              <div ref={scroll}></div>
               <MembersCarousel users={users} />
 
             </div>
