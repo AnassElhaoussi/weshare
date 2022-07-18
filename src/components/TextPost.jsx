@@ -34,7 +34,8 @@ const TextPost = ({isClicked, setIsClicked}) => {
             photoURL,
             uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            date: new Date().toString().substring(0, 33)
+            date: new Date().toString().substring(0, 33),
+            isEdited: false
             
             
         })
@@ -78,8 +79,6 @@ const TextPost = ({isClicked, setIsClicked}) => {
                             {tag}
                           </button>
                         ))}
-
-                        
                       
                   </div>
                   {error && (
