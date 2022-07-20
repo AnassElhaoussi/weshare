@@ -18,7 +18,7 @@ import { useAnimation } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../context/AuthContext'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import { storage } from '../firebase'
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { useEditProfileContext } from '../context/EditProfileContext'
@@ -29,6 +29,34 @@ import { useEditProfileContext } from '../context/EditProfileContext'
 const AccountModal = ({isOpen, onClose}) => {
 
   const user = useAuthContext()
+  const [editPhotoURL, setEditPhotoURL] = useState(false)
+  const [editUsername, setEditUsername] = useState(false)
+  const [editUsernameInputValue, setEditUsernameInputValue] = useState(user.displayName)
+  const [postsForEdits, setPostsForEdits] = useState([])
+
+  useEffect(() => {
+    db.collection('posts').orderBy('createdAt').onSnapshot(snapshot => {
+        setPostsForEdits(
+            snapshot.docs.map(doc => ({
+               data: doc.data(),
+               id: doc.id
+            }))
+        )
+    })
+  }, [])
+
+
+  const handleUsernameEdit = async (e) => {
+    e.preventDefault()
+
+    postsForEdits.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
+        db.collection('posts').doc(id).update({
+            displayName: editUsernameInputValue
+        })
+    })
+
+    setEditUsername(false)
+  }
  
 
   return (
@@ -46,17 +74,21 @@ const AccountModal = ({isOpen, onClose}) => {
 
                         <div className='flex items-center gap-2 text-center'>
                             <Avatar src={user.photoURL} />
-                            <FontAwesomeIcon icon={faEdit} />
+                            <FontAwesomeIcon icon={faEdit} onClick={() => setEditPhotoURL(!editPhotoURL)} />
                         </div>
                         <div className='flex gap-2 items-center justify-center'>
                             <p className='text-blue-500 dark:text-blue-700 select-none'>Username : </p>
-                            <h2>{user.displayName}</h2>
-                            <FontAwesomeIcon icon={faEdit} /> 
+                            <h2>{editUsernameInputValue}</h2>
+                            <FontAwesomeIcon icon={faEdit} onClick={() => setEditUsername(!editUsername)} /> 
                         </div>
+                        {editUsername && (
+                            <form action="" onSubmit={handleUsernameEdit}>
+                                <input type='text' placeholder='Edit your username..' className='dark:bg-gray-700 py-1 px-3 outline-none rounded' value={editUsernameInputValue} onChange={(e) => setEditUsernameInputValue(e.target.value)} />
+                            </form>
+                        )}
                         <div className='flex gap-2 items-center justify-center '>
                             <p className='text-blue-500 dark:text-blue-700'>Email : </p>
                             <h2>{user.email}</h2>
-                            
                         </div>
                         
                     </div>
