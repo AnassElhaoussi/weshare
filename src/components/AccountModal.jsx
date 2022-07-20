@@ -44,17 +44,19 @@ const AccountModal = ({isOpen, onClose}) => {
                 <PopoverBody border='0'>
                     <div className='flex flex-col items-center gap-4 py-6'>
 
-                        <div className='flex gap-2 text-center'>
+                        <div className='flex items-center gap-2 text-center'>
                             <Avatar src={user.photoURL} />
+                            <FontAwesomeIcon icon={faEdit} />
                         </div>
                         <div className='flex gap-2 items-center justify-center'>
                             <p className='text-blue-500 dark:text-blue-700 select-none'>Username : </p>
                             <h2>{user.displayName}</h2>
-            
+                            <FontAwesomeIcon icon={faEdit} /> 
                         </div>
                         <div className='flex gap-2 items-center justify-center '>
                             <p className='text-blue-500 dark:text-blue-700'>Email : </p>
                             <h2>{user.email}</h2>
+                            
                         </div>
                         
                     </div>
