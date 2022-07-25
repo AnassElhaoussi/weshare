@@ -16,18 +16,14 @@ import { motion } from 'framer-motion'
 import { useAnimation } from 'framer-motion'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../context/AuthContext'
-import { auth, db } from '../firebase'
-
-
-
+import { auth, db, storage } from '../firebase'
 
 
 const AccountModal = ({isOpen, onClose}) => {
 
   const user = useAuthContext()
-  const [editPhotoURL, setEditPhotoURL] = useState(false)
   const [editUsername, setEditUsername] = useState(false)
   const [editUsernameInputValue, setEditUsernameInputValue] = useState(user.displayName)
   const [postsForEdits, setPostsForEdits] = useState([])
@@ -45,6 +41,7 @@ const AccountModal = ({isOpen, onClose}) => {
         )
     })
   }, [])
+
 
   const handleUsernameEdit = async (e) => {
     e.preventDefault()
@@ -70,6 +67,7 @@ const AccountModal = ({isOpen, onClose}) => {
     
   }
 
+
   return (
 
         <Popover isOpen={isOpen} onClose={onClose}  >
@@ -82,22 +80,9 @@ const AccountModal = ({isOpen, onClose}) => {
                 <PopoverBody border='0'>
                     <div className='flex flex-col items-center gap-4 py-6'>
                         
-                        <div className='flex items-center gap-2 text-center'>
-                            <Avatar src={user.photoURL} />
-                            <FontAwesomeIcon icon={faEdit} onClick={() => setEditPhotoURL(!editPhotoURL)} />
-                        </div>
-                        {editPhotoURL && (
-                                            
-                            <div className='flex flex-col gap-4 bg-gray-700 py-4 px-4 rounded-md'>
-                                <h1 className='text-white'>Edit your profile picture</h1>
-                                <div className='flex gap-10'>
-                                    <input type='file' className='w-2/3  file:bg-blue-700 file:py-1 file:px-2 file:rounded file:text-white file:border-0' />
-                                    <button className='bg-blue-700 text-white rounded py-1 px-2 '>Upload</button>
-                                </div>
-                            </div>
-                       
-                        )}
-                    
+                        
+                        <Avatar src={user.photoURL} />
+                        
                         <div className='flex gap-2 items-center justify-center'>
                             <p className='text-blue-500 dark:text-blue-700 select-none'>Username : </p>
                             <h2>{user.displayName}</h2>
