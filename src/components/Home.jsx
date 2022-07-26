@@ -7,7 +7,7 @@ import TextPost from './TextPost'
 import { auth, db } from '../firebase'
 import { Avatar } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEarth, faHeart, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEarth, faHeart, faEdit, faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
 import MembersCarousel from './MembersCarousel'
 import Guide from './Guide'
 import { useSearchPostsContext } from '../context/SearchPostsContext'
@@ -120,14 +120,21 @@ const Home = () => {
                         <h1 className='text-blue-500 dark:text-blue-700 sm:text-sm text-xs'>{data.isEdited && 'Edited Post'}</h1>
                       </div>
                       <p className='text-xl dark:text-gray-300'>{data.text}</p>
-                      <div className='flex justify-between flex-wrap gap-5'>
-                        <span className='text-xs text-gray-400'>{data.date}</span>
-                        {data.uid === auth.currentUser.uid && (
-                          <div className='flex gap-5 right-10 top-5 text-blue-500 dark:text-blue-700'>
-                            <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => {updatePost(id, data.text, data.tag)}} />
-                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
-                          </div>
-                        )}
+                      <div className='flex flex-col gap-6'>
+                        <div className='flex items-center justify-start dark:text-blue-700 text-blue-500 gap-2'>
+                          <FontAwesomeIcon icon={faHeart} className='cursor-pointer' />
+                          0
+                          <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' />
+                        </div>
+                        <div className='flex justify-between flex-wrap gap-5'>
+                          <span className='text-xs text-gray-400'>{data.date}</span>
+                          {data.uid === auth.currentUser.uid && (
+                            <div className='flex gap-5 right-10 top-5 text-blue-500 dark:text-blue-700'>
+                              <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => {updatePost(id, data.text, data.tag)}} />
+                              <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
+                            </div>
+                          )}
+                        </div>
                         
                       </div>
                       

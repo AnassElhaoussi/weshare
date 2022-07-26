@@ -27,6 +27,7 @@ const AccountModal = ({isOpen, onClose}) => {
   const [editUsername, setEditUsername] = useState(false)
   const [editUsernameInputValue, setEditUsernameInputValue] = useState(user.displayName)
   const [postsForEdits, setPostsForEdits] = useState([])
+  const [usersForEdits, setUsersForEdits] = useState([])
   const [editUsernameError, setEditUsernameError] = useState(false)
 
 
@@ -41,6 +42,20 @@ const AccountModal = ({isOpen, onClose}) => {
         )
     })
   }, [])
+  
+
+  useEffect(() => {
+    db.collection('users').onSnapshot(snapshot => {
+        setUsersForEdits(
+            snapshot.docs.map(doc => ({
+                data: doc.data(),
+                id: doc.id
+            }))
+        )
+    })
+  }, [])
+
+  console.log(usersForEdits);
 
 
   const handleUsernameEdit = async (e) => {
@@ -50,6 +65,12 @@ const AccountModal = ({isOpen, onClose}) => {
         postsForEdits.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
             db.collection('posts').doc(id).update({
                 displayName: editUsernameInputValue
+            })
+        })
+
+        usersForEdits.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
+            db.collection('users').doc(id).update({
+                username: editUsernameInputValue
             })
         })
     
@@ -90,7 +111,7 @@ const AccountModal = ({isOpen, onClose}) => {
                         </div>
                         {editUsername && (
                             <form action="" onSubmit={handleUsernameEdit} className='relative'>
-                                <input type='text' placeholder='Edit your username..' className='dark:bg-gray-700 py-1 px-3 outline-none rounded' value={editUsernameInputValue} onChange={(e) => setEditUsernameInputValue(e.target.value)} />
+                                <input type='text' placeholder='Edit your username..' className='dark:bg-gray-700 bg-gray-200 py-1 px-3 outline-none rounded' value={editUsernameInputValue} onChange={(e) => setEditUsernameInputValue(e.target.value)} />
                                 <button type='submit'>
                                     <FontAwesomeIcon icon={faCheck} className='absolute top-2 right-2' />
                                 </button>
