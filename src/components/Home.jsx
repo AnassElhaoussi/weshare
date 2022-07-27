@@ -30,8 +30,20 @@ const Home = () => {
   const [users, setUsers] = useState([])
   const scroll = useRef()
   const [searchValue, setSearchValue] = useSearchPostsContext()
+  const [liked, setLiked] = useState(false)
+  const [count, setCount] = useState(0)
   const location = useLocation()
   
+
+  useEffect(() => {
+    if(liked){
+      setCount(1)
+    } else {
+      setCount(0)
+    }
+  }, [liked])
+
+
 
 
   useEffect(() => {
@@ -69,6 +81,10 @@ const Home = () => {
       
     }, [])
 
+    useEffect(() => {
+      
+    }, [count])
+
 
     const handleDelete = async (id) => {
         await db.collection('posts').doc(id).delete()
@@ -80,6 +96,21 @@ const Home = () => {
       setEditText(text)
       setEditTag(tag)
       scroll.current.scrollIntoView({behavior : 'smooth'})
+    }
+
+    const handlePostLiking = async (user, postName, id) => {
+      setLiked(!liked)
+
+      db.collection('likes').add({
+        likes: {
+          user: user,
+          post: postName,
+          like: liked
+        }
+      })
+
+      
+
     }
 
     
@@ -122,8 +153,8 @@ const Home = () => {
                       <p className='text-xl dark:text-gray-300'>{data.text}</p>
                       <div className='flex flex-col gap-6'>
                         <div className='flex items-center justify-start dark:text-blue-700 text-blue-500 gap-2'>
-                          <FontAwesomeIcon icon={faHeart} className='cursor-pointer' />
-                          0
+                          <FontAwesomeIcon icon={faHeart} className='cursor-pointer' onClick={() => handlePostLiking(data.displayName, data.text, id)} />
+                          {count}
                           <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' />
                         </div>
                         <div className='flex justify-between flex-wrap gap-5'>

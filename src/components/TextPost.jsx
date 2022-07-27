@@ -39,6 +39,8 @@ const TextPost = ({isClicked, setIsClicked}) => {
             
             
         })
+
+        
   
   
         setPostText()

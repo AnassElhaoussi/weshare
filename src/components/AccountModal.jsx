@@ -32,6 +32,7 @@ const AccountModal = ({isOpen, onClose}) => {
 
 
 
+
   useEffect(() => {
     db.collection('posts').orderBy('createdAt').onSnapshot(snapshot => {
         setPostsForEdits(
