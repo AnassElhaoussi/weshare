@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './styles/index.css'
 import { motion } from 'framer-motion'
 import {ChakraProvider} from '@chakra-ui/react'
@@ -8,9 +8,12 @@ import WeShare from './WeShare'
 import { AuthProvider } from './context/AuthContext'
 import { SearchPostsProvider } from './context/SearchPostsContext'
 import Messages from './components/Messages'
+import {db} from './firebase'
 
 
 function App() {
+
+ 
 
   
 

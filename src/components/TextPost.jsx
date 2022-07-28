@@ -43,7 +43,7 @@ const TextPost = ({isClicked, setIsClicked}) => {
         
   
   
-        setPostText()
+        setPostText("")
         setIsClicked(false)
         setError(false)
 

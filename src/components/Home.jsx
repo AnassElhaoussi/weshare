@@ -7,12 +7,14 @@ import TextPost from './TextPost'
 import { auth, db } from '../firebase'
 import { Avatar } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEarth, faHeart, faEdit, faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faEarth, faHeart, faEdit, faTrash, faComment, faClose } from '@fortawesome/free-solid-svg-icons'
 import MembersCarousel from './MembersCarousel'
 import Guide from './Guide'
 import { useSearchPostsContext } from '../context/SearchPostsContext'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import EditPost from './EditPost'
+import firebase from 'firebase/compat/app'
+
 
 
 
@@ -23,27 +25,18 @@ const Home = () => {
   const user = useAuthContext()
   const [isClicked, setIsClicked] = useState(false)
   const [edit, setEdit] = useState(false)
-  const [docId, setDocId] = useState('')
+  const [commentSectIsActive, setCommentSectIsActive] = useState(false)
+  const [docId, setDocId] = useState(null)
+  const [IdForComment, setIdForComment] = useState('')
   const [editText, setEditText] = useState('')
   const [editTag, setEditTag] = useState('')
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
+  const [commentInputValue, setCommentInputValue] = useState('')
+  const [comments, setComments] = useState([])
   const scroll = useRef()
   const [searchValue, setSearchValue] = useSearchPostsContext()
-  const [liked, setLiked] = useState(false)
-  const [count, setCount] = useState(0)
   const location = useLocation()
-  
-
-  useEffect(() => {
-    if(liked){
-      setCount(1)
-    } else {
-      setCount(0)
-    }
-  }, [liked])
-
-
 
 
   useEffect(() => {
@@ -51,18 +44,32 @@ const Home = () => {
         setPosts(
            snapshot.docs.map(doc => ({
 
+             data: doc.data(),
+             id: doc.id
+             
+            }))
+            )
+          })
+          
+          console.log(posts);
+          
+          
+        }, [])
+
+  useEffect(() => {
+    if(IdForComment){
+      db.collection('posts').doc(IdForComment).collection('comments').orderBy('createdAt').onSnapshot(snapsahot => {
+        setComments(
+          snapsahot.docs.map(doc => ({
             data: doc.data(),
             id: doc.id
-
-           }))
+          }))
         )
       })
 
-      console.log(posts);
-
-      
-  }, [])
-
+    }
+  }, [IdForComment])
+        
   useEffect(() => {
     db.collection('users').onSnapshot(snapshot => {
       setUsers(
@@ -81,9 +88,6 @@ const Home = () => {
       
     }, [])
 
-    useEffect(() => {
-      
-    }, [count])
 
 
     const handleDelete = async (id) => {
@@ -98,20 +102,31 @@ const Home = () => {
       scroll.current.scrollIntoView({behavior : 'smooth'})
     }
 
-    const handlePostLiking = async (user, postName, id) => {
-      setLiked(!liked)
 
-      db.collection('likes').add({
-        likes: {
-          user: user,
-          post: postName,
-          like: liked
-        }
-      })
+    const handleCommentSect = (id) => {
+      setCommentSectIsActive(true)
+      setIdForComment(id)
 
       
-
     }
+
+    const sendComment = async (e) => {
+      e.preventDefault()
+
+      if(commentInputValue){
+          await db.collection('posts').doc(IdForComment).collection('comments').add({
+            comment: commentInputValue,
+            username: user.displayName,
+            profilePicture: user.photoURL,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          })
+
+
+      }
+
+      setCommentInputValue('')
+    }
+
 
     
 
@@ -136,8 +151,41 @@ const Home = () => {
             <div className='flex flex-col-reverse gap-5'> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
+                  {commentSectIsActive && (
+                    
+                      <div className='overflow-y-auto h-2/3 fixed right-1/2 translate-x-1/2 translate-y-1/2 bottom-1/2 z-50 flex items-end dark:bg-gray-800 bg-gray-100 shadow-lg rounded-md p-5'>
+                        <div className='flex flex-col gap-5 h-full '>
+                          <div className='flex justify-between items-center'>
+                            <h1 className='text-2xl font-bold dark:text-gray-300 text-start'>Comments</h1>
+                            <FontAwesomeIcon icon={faClose} className='cursor-pointer' onClick={() => setCommentSectIsActive(false)} />
+                          </div>
+                          <form className='flex items-center gap-3' onSubmit={sendComment}>
+                            <Avatar src={user.photoURL} />
+                            <input type="text"
+                            className='outline-none dark:bg-gray-700 dark:text-gray-300 py-1 px-3 rounded'
+                            placeholder='Leave a comment..'
+                            value={commentInputValue}
+                            onChange={(e) => setCommentInputValue(e.target.value)}
+                            
+                            />
+                          </form>
+                            {comments.map(({data, id}) => (
+                              <p>{data.comment}</p>
+                            ))}
+                        
+                          
+
+                        </div>
+                      </div>
+                    
+                     
+                  )}
+                  <div className='py-4'></div>
+                  
                   {posts.filter(({data, id}) => data.tag?.toLowerCase().includes(searchValue?.toLowerCase())).map(({data, id}) => (
+                    
                     <div className='flex flex-col gap-8 rounded-md bg-gray-100 dark:bg-gray-800 p-5 md:w-3/4 relative'>
+            
                       <div className='flex justify-between flex-wrap gap-5'>
                         <div className='flex gap-3 items-center'>
                           <Avatar src={data.photoURL} />
@@ -153,9 +201,10 @@ const Home = () => {
                       <p className='text-xl dark:text-gray-300'>{data.text}</p>
                       <div className='flex flex-col gap-6'>
                         <div className='flex items-center justify-start dark:text-blue-700 text-blue-500 gap-2'>
-                          <FontAwesomeIcon icon={faHeart} className='cursor-pointer' onClick={() => handlePostLiking(data.displayName, data.text, id)} />
-                          {count}
-                          <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' />
+                          <FontAwesomeIcon icon={faHeart} className='cursor-pointer' />
+                          0
+                          <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' onClick={() => handleCommentSect(id)} />
+                          
                         </div>
                         <div className='flex justify-between flex-wrap gap-5'>
                           <span className='text-xs text-gray-400'>{data.date}</span>
@@ -168,9 +217,9 @@ const Home = () => {
                         </div>
                         
                       </div>
-                      
                     </div>
                   ))?.reverse()}
+                  
                   
                 </div>
               )}
@@ -178,6 +227,7 @@ const Home = () => {
                 <EditPost setEdit={setEdit} docId={docId} editText={editText} editTag={editTag}  /> 
               )}
               <div ref={scroll}></div>
+              
               <MembersCarousel users={users} />
 
             </div>
