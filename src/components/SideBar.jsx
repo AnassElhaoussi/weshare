@@ -45,9 +45,9 @@ const SideBar = ({darkTheme, setDarkTheme}) => {
                     </h3>
                 </div>
               </Link>
-            <div className='flex gap-5 items-center hover:text-blue-500 hover:dark:text-blue-700 transition-colors'>
+            <div className='flex gap-5 items-center hover:text-blue-500 hover:dark:text-blue-700 transition-colors' onClick={() => setDarkTheme(!darkTheme) }>
               <FontAwesomeIcon icon={darkTheme ? faSun : faMoon} />
-              <h3 className='lg:flex hidden select-none' onClick={() => setDarkTheme(!darkTheme) }>{darkTheme ? "Light Mode" : "Dark mode"} </h3>
+              <h3 className='lg:flex hidden select-none' >{darkTheme ? "Light Mode" : "Dark mode"} </h3>
             </div>
             <div className='flex gap-5 items-center'>
                 <Menu>

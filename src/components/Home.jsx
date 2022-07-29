@@ -116,18 +116,18 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
             )}
                 
             
-            <div className='flex flex-col-reverse gap-5 '> 
+            <div className='flex flex-col-reverse gap-1 '> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
                   {commentSectIsActive && (
                     
-                      <div className='overflow-y-auto h-2/3 w-96 fixed right-1/2 translate-x-1/2 translate-y-1/2 bottom-1/2 z-50 flex items-end dark:bg-gray-800 bg-gray-100 shadow-lg rounded-md p-5'>
+                      <div className='overflow-y-auto h-2/3 w-96 fixed right-1/2 translate-x-1/2 translate-y-1/2 bottom-1/2 z-50 flex items-end dark:bg-gray-800 bg-gray-100 shadow-2xl rounded-md'>
                         <div className='flex flex-col gap-5 h-full dark:text-gray-300'>
-                          <div className='flex justify-between items-center'>
+                          <div className='flex justify-between items-center sticky top-0 z-50 dark:bg-gray-800 bg-gray-100 p-5'>
                             <h1 className='text-2xl font-bold  text-start'>Comments</h1>
                             <FontAwesomeIcon icon={faClose} className='cursor-pointer hover:bg-gray-300 p-2 rounded hover:dark:bg-gray-900 transition-colors' onClick={() => setCommentSectIsActive(false)} />
                           </div>
-                          <form className='flex items-center gap-3' onSubmit={sendComment}>
+                          <form className='flex items-center gap-3 px-5' onSubmit={sendComment}>
                             <Avatar src={user.photoURL} />
                             <input type="text"
                             className='outline-none dark:bg-gray-700  py-1 px-3 rounded'
@@ -137,15 +137,18 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                             
                             />
                           </form>
-                            {comments.map(({data, id}) => (
-                              <div className='flex items-center gap-3'>
-                                <Avatar src={data.profilePicture} />
-                                <div>
-                                  <h2 className='dark:text-blue-700 text-blue-500'>@{data.username} </h2>
-                                  <p className='text-sm break-all'>{data.comment}</p>
-                                </div>
+                          
+
+                          {comments.map(({data, id}) => (
+                            <div className='flex items-center gap-3 px-5'>
+                              <Avatar src={data.profilePicture} />
+                              <div>
+                                <h2 className='dark:text-blue-700 text-blue-500'>@{data.username} </h2>
+                                <p className='text-sm break-all'>{data.comment}</p>
                               </div>
-                            ))}
+                            </div>
+                          ))}
+                          
                         
                           
 

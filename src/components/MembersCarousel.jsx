@@ -51,15 +51,17 @@ const MembersCarousel = () => {
 
   const uniqueValuesSet = new Set()
 
-  const filteredArr = users.filter((user) => {
-    const isPresentInSet = uniqueValuesSet.has(user.username);
+  const filteredArr = users.filter(({data, id}) => {
+    const isPresentInSet = uniqueValuesSet.has(data.username);
     
-    uniqueValuesSet.add(user.username);
+    uniqueValuesSet.add(data.username);
     
     return !isPresentInSet;
   });
 
   console.log(filteredArr);
+
+  
   
 
   return (
@@ -67,12 +69,12 @@ const MembersCarousel = () => {
            <h1 className='text-xl font-bold'>Members</h1>
            
             <Carousel responsive={responsive} >
-              {filteredArr.filter(({uid}) => auth.currentUser.uid !== uid).map(({username, profilePicture}) => (
+              {filteredArr.filter(({data, id}) => auth.currentUser.uid !== data.uid).map(({data, id}) => (
                 <div>
                   <div className='hover:scale-110 transition-all' onClick={() => setIsActive(!isActive)}>
                       <div className='flex flex-col items-center gap-2 py-2 px-2 cursor-pointer'>
-                          <Avatar src={profilePicture} />
-                          <h2 className='bg-yellow-300 dark:bg-yellow-400 py-1 px-2 text-black rounded-md font-bold md:text-sm text-xs'>@{username}</h2>
+                          <Avatar src={data.profilePicture} />
+                          <h2 className='bg-yellow-300 dark:bg-yellow-400 py-1 px-2 text-black rounded-md font-bold md:text-sm text-xs'>@{data.username}</h2>
                       </div>
                   </div>
                 </div>
