@@ -19,6 +19,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../context/AuthContext'
 import { auth, db, storage } from '../firebase'
+import { usePostsContext } from '../context/PostsContext'
+import { useUsersContext } from '../context/UsersContext'
 
 
 const AccountModal = ({isOpen, onClose}) => {
@@ -26,50 +28,23 @@ const AccountModal = ({isOpen, onClose}) => {
   const user = useAuthContext()
   const [editUsername, setEditUsername] = useState(false)
   const [editUsernameInputValue, setEditUsernameInputValue] = useState(user.displayName)
-  const [postsForEdits, setPostsForEdits] = useState([])
-  const [usersForEdits, setUsersForEdits] = useState([])
   const [editUsernameError, setEditUsernameError] = useState(false)
+  const users = useUsersContext()
+  const posts = usePostsContext()
 
-
-
-
-  useEffect(() => {
-    db.collection('posts').orderBy('createdAt').onSnapshot(snapshot => {
-        setPostsForEdits(
-            snapshot.docs.map(doc => ({
-               data: doc.data(),
-               id: doc.id
-            }))
-        )
-    })
-  }, [])
-  
-
-  useEffect(() => {
-    db.collection('users').onSnapshot(snapshot => {
-        setUsersForEdits(
-            snapshot.docs.map(doc => ({
-                data: doc.data(),
-                id: doc.id
-            }))
-        )
-    })
-  }, [])
-
-  console.log(usersForEdits);
 
 
   const handleUsernameEdit = async (e) => {
     e.preventDefault()
 
     if(editUsernameInputValue.length <= 12 && editUsernameInputValue){
-        postsForEdits.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
+        posts.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
             db.collection('posts').doc(id).update({
                 displayName: editUsernameInputValue
             })
         })
 
-        usersForEdits.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
+        users.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
             db.collection('users').doc(id).update({
                 username: editUsernameInputValue
             })

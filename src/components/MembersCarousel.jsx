@@ -1,19 +1,32 @@
 
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Avatar } from '@chakra-ui/react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { useAuthContext } from '../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faPerson } from '@fortawesome/free-solid-svg-icons';
+import { useUsersContext } from '../context/UsersContext';
 
 
 
-const MembersCarousel = ({users}) => {
+const MembersCarousel = () => {
 
+    const user = useAuthContext()
     const [isActive, setIsActive] = useState(false)
-
+    const users = useUsersContext()
     
+
+      
+      useEffect(() => {
+        db.collection('users').add({
+          username: user.displayName,
+          profilePicture: user.photoURL,
+          uid: user.uid
+        })
+        
+      }, [])
   
     const responsive = {
         superLargeDesktop: {

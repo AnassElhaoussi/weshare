@@ -14,6 +14,7 @@ import { useSearchPostsContext } from '../context/SearchPostsContext'
 import { Link, useLocation } from 'react-router-dom'
 import EditPost from './EditPost'
 import firebase from 'firebase/compat/app'
+import { usePostsContext } from '../context/PostsContext'
 
 
 
@@ -30,31 +31,15 @@ const Home = () => {
   const [IdForComment, setIdForComment] = useState('')
   const [editText, setEditText] = useState('')
   const [editTag, setEditTag] = useState('')
-  const [posts, setPosts] = useState([])
-  const [users, setUsers] = useState([])
   const [commentInputValue, setCommentInputValue] = useState('')
   const [comments, setComments] = useState([])
   const scroll = useRef()
   const [searchValue, setSearchValue] = useSearchPostsContext()
+  const posts = usePostsContext()
   const location = useLocation()
 
 
-  useEffect(() => {
-      db.collection('posts').orderBy('createdAt').onSnapshot(snapshot => {
-        setPosts(
-           snapshot.docs.map(doc => ({
-
-             data: doc.data(),
-             id: doc.id
-             
-            }))
-            )
-          })
-          
-          console.log(posts);
-          
-          
-        }, [])
+  
 
   useEffect(() => {
     if(IdForComment){
@@ -70,23 +55,7 @@ const Home = () => {
     }
   }, [IdForComment])
         
-  useEffect(() => {
-    db.collection('users').onSnapshot(snapshot => {
-      setUsers(
-        snapshot.docs.map(doc => doc.data())
-        )
-      })
-      
-    }, [])
-    
-    useEffect(() => {
-      db.collection('users').add({
-        username: user.displayName,
-        profilePicture: user.photoURL,
-        uid: user.uid
-      })
-      
-    }, [])
+  
 
 
 
@@ -148,21 +117,21 @@ const Home = () => {
             )}
                 
             
-            <div className='flex flex-col-reverse gap-5'> 
+            <div className='flex flex-col-reverse gap-5 '> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
                   {commentSectIsActive && (
                     
-                      <div className='overflow-y-auto h-2/3 fixed right-1/2 translate-x-1/2 translate-y-1/2 bottom-1/2 z-50 flex items-end dark:bg-gray-800 bg-gray-100 shadow-lg rounded-md p-5'>
-                        <div className='flex flex-col gap-5 h-full '>
+                      <div className='overflow-y-auto h-2/3 w-96 fixed right-1/2 translate-x-1/2 translate-y-1/2 bottom-1/2 z-50 flex items-end dark:bg-gray-800 bg-gray-100 shadow-lg rounded-md p-5'>
+                        <div className='flex flex-col gap-5 h-full dark:text-gray-300'>
                           <div className='flex justify-between items-center'>
-                            <h1 className='text-2xl font-bold dark:text-gray-300 text-start'>Comments</h1>
-                            <FontAwesomeIcon icon={faClose} className='cursor-pointer' onClick={() => setCommentSectIsActive(false)} />
+                            <h1 className='text-2xl font-bold  text-start'>Comments</h1>
+                            <FontAwesomeIcon icon={faClose} className='cursor-pointer hover:bg-gray-300 p-2 rounded hover:dark:bg-gray-900 transition-colors' onClick={() => setCommentSectIsActive(false)} />
                           </div>
                           <form className='flex items-center gap-3' onSubmit={sendComment}>
                             <Avatar src={user.photoURL} />
                             <input type="text"
-                            className='outline-none dark:bg-gray-700 dark:text-gray-300 py-1 px-3 rounded'
+                            className='outline-none dark:bg-gray-700  py-1 px-3 rounded'
                             placeholder='Leave a comment..'
                             value={commentInputValue}
                             onChange={(e) => setCommentInputValue(e.target.value)}
@@ -170,7 +139,13 @@ const Home = () => {
                             />
                           </form>
                             {comments.map(({data, id}) => (
-                              <p>{data.comment}</p>
+                              <div className='flex items-center gap-3'>
+                                <Avatar src={data.profilePicture} />
+                                <div>
+                                  <h2 className='dark:text-blue-700 text-blue-500'>@{data.username} </h2>
+                                  <p className='text-sm break-all'>{data.comment}</p>
+                                </div>
+                              </div>
                             ))}
                         
                           
@@ -228,7 +203,7 @@ const Home = () => {
               )}
               <div ref={scroll}></div>
               
-              <MembersCarousel users={users} />
+              <MembersCarousel />
 
             </div>
             <Guide />
