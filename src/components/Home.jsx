@@ -21,12 +21,11 @@ import { usePostsContext } from '../context/PostsContext'
 
 
 
-const Home = () => {
+const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
 
   const user = useAuthContext()
   const [isClicked, setIsClicked] = useState(false)
   const [edit, setEdit] = useState(false)
-  const [commentSectIsActive, setCommentSectIsActive] = useState(false)
   const [docId, setDocId] = useState(null)
   const [IdForComment, setIdForComment] = useState('')
   const [editText, setEditText] = useState('')
