@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext'
 import { SearchPostsProvider } from './context/SearchPostsContext'
 import { PostsContextProvider } from './context/PostsContext'
 import { UsersContextProvider } from './context/UsersContext'
+import { CommentsContextProvider } from './context/CommentsContext'
 import Messages from './components/Messages'
 import {db} from './firebase'
 
@@ -24,16 +25,18 @@ function App() {
           <SearchPostsProvider>
             <PostsContextProvider>
               <UsersContextProvider>
-                <ChakraProvider>
-                      <div className='font-body'>
-                          <Routes>
-                            <Route path='/' element={<Login />} />
-                            <Route path='/weshare' element={<WeShare />} />
-                            <Route path='/weshare/messages' element={<Messages />} />
-                            <Route path='/signup' element={<SignUp  />} />
-                          </Routes>
-                      </div>
-                </ChakraProvider>
+                <CommentsContextProvider>
+                  <ChakraProvider>
+                        <div className='font-body'>
+                            <Routes>
+                              <Route path='/' element={<Login />} />
+                              <Route path='/weshare' element={<WeShare />} />
+                              <Route path='/weshare/messages' element={<Messages />} />
+                              <Route path='/signup' element={<SignUp  />} />
+                            </Routes>
+                        </div>
+                  </ChakraProvider>
+                </CommentsContextProvider>
               </UsersContextProvider>
             </PostsContextProvider>
           </SearchPostsProvider>
