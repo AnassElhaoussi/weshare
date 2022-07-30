@@ -63,15 +63,12 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
       e.preventDefault()
 
       if(commentInputValue){
-<<<<<<< HEAD
+
           await db
           .collection('posts')
-          .doc(IdForComment)
+          .doc(idForComment)
           .collection('comments')
           .add({
-=======
-          await db.collection('posts').doc(idForComment).collection('comments').add({
->>>>>>> 41ed9c94946ad93c472d9b997bd9f3051d820c5f
             comment: commentInputValue,
             username: user.displayName,
             profilePicture: user.photoURL,
