@@ -47,10 +47,12 @@ const Login = () => {
           <div className='flex flex-col gap-10 items-center justify-center h-screen'>
               <h1 className='text-4xl font-bold'>Login to we<span className='text-blue-500'>share</span></h1>
               <div className='flex gap-3 cursor-pointer'>
-                  <div className='w-10' onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())}>
+                  <div className='w-10' 
+                  onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())}>
                     <img src={googleIcon} alt="google-icon" />
                   </div>
-                  <div className='w-10' onClick={() => auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider())}>
+                  <div className='w-10' 
+                  onClick={() => auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider())}>
                     <img src={facebookIcon} alt="facebook-icon"/>
                   </div>
               </div>
@@ -59,12 +61,22 @@ const Login = () => {
                   <div className='flex flex-col gap-2 items-center'>
                     <form className='flex flex-col gap-4' onSubmit={handleLoginSubmit}>
                       <label htmlFor="">Email : </label>
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={notComplete ? 'Please enter your email' : 'Enter your email'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
+                      <input 
+                      type="email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                      placeholder={notComplete ? 'Please enter your email' : 'Enter your email'} 
+                      className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                       <p className='text-red-600 text-xs'>{errorCode == "auth/invalid-email" ? "Invalid Email!" : ""} </p>
                     </form>
                     <form action="" className='flex flex-col gap-2' onSubmit={(e) => handleLoginSubmit(e)}>
                       <label htmlFor="" >Password : </label>
-                      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={notComplete ? 'Please enter your password' : 'Enter your password'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
+                      <input 
+                      type="password" 
+                      value={password} 
+                      onChange={(e) => setPassword(e.target.value)} 
+                      placeholder={notComplete ? 'Please enter your password' : 'Enter your password'} 
+                      className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                       <p className='text-red-600 text-xs'>{errorCode == "auth/user-not-found" ? "User not found" : ""} </p>
                       <button type='submit' className='text-white bg-blue-500 font-bold px-4 py-1 rounded-3xl'>Submit</button>
                     </form>

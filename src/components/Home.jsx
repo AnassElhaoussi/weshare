@@ -82,7 +82,11 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
       e.preventDefault()
 
       if(commentInputValue){
-          await db.collection('posts').doc(IdForComment).collection('comments').add({
+          await db
+          .collection('posts')
+          .doc(IdForComment)
+          .collection('comments')
+          .add({
             comment: commentInputValue,
             username: user.displayName,
             profilePicture: user.photoURL,
@@ -114,8 +118,6 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                  
                  />
             )}
-                
-            
             <div className='flex flex-col-reverse gap-1 '> 
               {location.pathname === "/weshare" && (
                 <div className='flex flex-col gap-5 relative'>
@@ -125,7 +127,10 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                         <div className='flex flex-col gap-5 h-full dark:text-gray-300'>
                           <div className='flex justify-between items-center sticky top-0 z-50 dark:bg-gray-800 bg-gray-100 p-5'>
                             <h1 className='text-2xl font-bold  text-start'>Comments</h1>
-                            <FontAwesomeIcon icon={faClose} className='cursor-pointer hover:bg-gray-300 p-2 rounded hover:dark:bg-gray-900 transition-colors' onClick={() => setCommentSectIsActive(false)} />
+                            <FontAwesomeIcon 
+                            icon={faClose} 
+                            className='cursor-pointer hover:bg-gray-300 p-2 rounded hover:dark:bg-gray-900 transition-colors' 
+                            onClick={() => setCommentSectIsActive(false)} />
                           </div>
                           <form className='flex items-center gap-3 px-5' onSubmit={sendComment}>
                             <Avatar src={user.photoURL} />
@@ -137,7 +142,6 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                             
                             />
                           </form>
-                          
 
                           {comments.map(({data, id}) => (
                             <div className='flex items-center gap-3 px-5'>
@@ -148,10 +152,6 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                               </div>
                             </div>
                           ))}
-                          
-                        
-                          
-
                         </div>
                       </div>
                     
@@ -168,7 +168,9 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                           <Avatar src={data.photoURL} />
                           <div className='flex flex-col gap-1'>
                               <h2 className='dark:text-gray-300'>@{data.displayName}</h2>
-                              <h3 className='text-xs text-blue-500 dark:text-blue-700'>Your post is seen by everyone <FontAwesomeIcon icon={faEarth} /> </h3>
+                              <h3 className='text-xs text-blue-500 dark:text-blue-700'>
+                              Your post is seen by everyone 
+                              <FontAwesomeIcon icon={faEarth} /> </h3>
                               <button className="bg-yellow-300 dark:bg-yellow-400 py-1 px-3 text-xs font-bold rounded-2xl w-fit mt-4">{data.tag}</button>
                           </div>
                   
@@ -180,15 +182,18 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                         <div className='flex items-center justify-start dark:text-blue-700 text-blue-500 gap-2'>
                           <FontAwesomeIcon icon={faHeart} className='cursor-pointer' />
                           0
-                          <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' onClick={() => handleCommentSect(id)} />
+                          <FontAwesomeIcon icon={faComment} className='cursor-pointer ml-4' 
+                          onClick={() => handleCommentSect(id)} />
                           
                         </div>
                         <div className='flex justify-between flex-wrap gap-5'>
                           <span className='text-xs text-gray-400'>{data.date}</span>
                           {data.uid === auth.currentUser.uid && (
                             <div className='flex gap-5 right-10 top-5 text-blue-500 dark:text-blue-700'>
-                              <FontAwesomeIcon icon={faEdit} className='cursor-pointer' onClick={() => {updatePost(id, data.text, data.tag)}} />
-                              <FontAwesomeIcon icon={faTrash} className='cursor-pointer' onClick={() => {handleDelete(id)}} />    
+                              <FontAwesomeIcon icon={faEdit} className='cursor-pointer' 
+                              onClick={() => {updatePost(id, data.text, data.tag)}} />
+                              <FontAwesomeIcon icon={faTrash} className='cursor-pointer' 
+                              onClick={() => {handleDelete(id)}} />    
                             </div>
                           )}
                         </div>
@@ -196,15 +201,12 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
                       </div>
                     </div>
                   ))?.reverse()}
-                  
-                  
                 </div>
               )}
               {edit && (
                 <EditPost setEdit={setEdit} docId={docId} editText={editText} editTag={editTag}  /> 
               )}
               <div ref={scroll}></div>
-              
               <MembersCarousel />
 
             </div>

@@ -102,7 +102,9 @@ const TextPost = ({isClicked, setIsClicked}) => {
                   <button className='text-white bg-blue-500 dark:bg-blue-700 py-1 px-3 rounded hover:scale-105 transition-all' 
                   onClick={sharePost}
                   >Share</button>
-                  <button className='text-white bg-blue-500 dark:bg-blue-700 py-1 px-3 rounded hover:scale-105 transition-all' onClick={() => setIsClicked(false)}>Cancel</button>
+                  <button 
+                  className='text-white bg-blue-500 dark:bg-blue-700 py-1 px-3 rounded hover:scale-105 transition-all' 
+                  onClick={() => setIsClicked(false)}>Cancel</button>
                 </div>
         </motion.div>
 

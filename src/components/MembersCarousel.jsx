@@ -59,17 +59,15 @@ const MembersCarousel = () => {
     return !isPresentInSet;
   });
 
-  console.log(filteredArr);
 
-  
-  
 
   return (
     <div className='flex flex-col gap-8 sm:w-3/4 text-center bg-blue-500 dark:bg-blue-700 text-white rounded-md py-4'>
            <h1 className='text-xl font-bold'>Members</h1>
            
             <Carousel responsive={responsive} >
-              {filteredArr.filter(({data, id}) => auth.currentUser.uid !== data.uid).map(({data, id}) => (
+              {filteredArr.filter(({data, id}) => 
+              auth.currentUser.uid !== data.uid).map(({data, id}) => (
                 <div>
                   <div className='hover:scale-110 transition-all' onClick={() => setIsActive(!isActive)}>
                       <div className='flex flex-col items-center gap-2 py-2 px-2 cursor-pointer'>
@@ -82,8 +80,6 @@ const MembersCarousel = () => {
               ))}
               
             </Carousel>
-
-
     </div>
   )
 }

@@ -39,13 +39,19 @@ const AccountModal = ({isOpen, onClose}) => {
 
     if(editUsernameInputValue.length <= 12 && editUsernameInputValue){
         posts.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
-            db.collection('posts').doc(id).update({
+            db
+            .collection('posts')
+            .doc(id)
+            .update({
                 displayName: editUsernameInputValue
             })
         })
 
         users.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
-            db.collection('users').doc(id).update({
+            db
+            .collection('users')
+            .doc(id)
+            .update({
                 username: editUsernameInputValue
             })
         })

@@ -54,17 +54,32 @@ const SignUp = () => {
               <div className='flex flex-col gap-3' >
                 <div className='flex flex-col items-center gap-4'>
                   <form action="" className='flex flex-col gap-2' onSubmit={handleSignUpSubmit}>
-                    <label htmlFor="">Username : </label>
-                    <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} placeholder={notComplete ? "Please enter a username" : "Enter your username"} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
+                      <label htmlFor="">Username : </label>
+                      <input 
+                      type="text" 
+                      value={userName} 
+                      onChange={(e) => setUserName(e.target.value)} 
+                      placeholder={notComplete ? "Please enter a username" : "Enter your username"} 
+                      className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                   </form>
                   <form action="" className='flex flex-col gap-2' onSubmit={handleSignUpSubmit}>
                     <label htmlFor="">Email : </label>
-                    <input type="email" value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)}  placeholder={notComplete ? 'Please enter an email' : 'example12@gmail.com'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
+                    <input 
+                    type="email" 
+                    value={signUpEmail} 
+                    onChange={(e) => setSignUpEmail(e.target.value)}  
+                    placeholder={notComplete ? 'Please enter an email' : 'example12@gmail.com'} 
+                    className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                     <p className='text-xs text-red-600'>{errorCode === 'auth/invalid-email' ? 'Invalid Email!' : ''} </p>
                   </form>
                   <form action="" className='flex flex-col gap-2' onSubmit={handleSignUpSubmit}>
                     <label htmlFor="" >Password : </label>
-                    <input type="password" value={createPassword} onChange={(e) => setCreatePassword(e.target.value)}  placeholder={notComplete ? 'Please enter a password' : 'Create a password'} className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
+                    <input 
+                    type="password" 
+                    value={createPassword} 
+                    onChange={(e) => setCreatePassword(e.target.value)}  
+                    placeholder={notComplete ? 'Please enter a password' : 'Create a password'} 
+                    className={notComplete ? 'bg-gray-100 px-3 py-1 outline-none placeholder:text-red-600' : 'bg-gray-100 px-3 py-1 outline-none'} />
                     <p className='text-xs text-red-600'>{errorCode === 'auth/weak-password' ? 'Password should be atleast 6 characters' : ''}</p>
                     <button type='submit' className='bg-blue-500 font-bold text-white rounded-3xl py-1 px-4'>Submit</button>
                   </form>
