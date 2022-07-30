@@ -15,6 +15,7 @@ import { Link, useLocation } from 'react-router-dom'
 import EditPost from './EditPost'
 import firebase from 'firebase/compat/app'
 import { usePostsContext } from '../context/PostsContext'
+import { useCommentsContext } from '../context/CommentsContext'
 
 
 
@@ -27,35 +28,16 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
   const [isClicked, setIsClicked] = useState(false)
   const [edit, setEdit] = useState(false)
   const [docId, setDocId] = useState(null)
-  const [IdForComment, setIdForComment] = useState('')
   const [editText, setEditText] = useState('')
   const [editTag, setEditTag] = useState('')
   const [commentInputValue, setCommentInputValue] = useState('')
-  const [comments, setComments] = useState([])
   const scroll = useRef()
   const [searchValue, setSearchValue] = useSearchPostsContext()
   const posts = usePostsContext()
   const location = useLocation()
-
-
-  
-
-  useEffect(() => {
-    if(IdForComment){
-      db.collection('posts').doc(IdForComment).collection('comments').orderBy('createdAt').onSnapshot(snapsahot => {
-        setComments(
-          snapsahot.docs.map(doc => ({
-            data: doc.data(),
-            id: doc.id
-          }))
-        )
-      })
-
-    }
-  }, [IdForComment])
+  const {idForComment, setIdForComment, comments} = useCommentsContext()
         
   
-
 
 
     const handleDelete = async (id) => {
@@ -74,7 +56,6 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
     const handleCommentSect = (id) => {
       setCommentSectIsActive(true)
       setIdForComment(id)
-
       
     }
 
@@ -82,10 +63,11 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
       e.preventDefault()
 
       if(commentInputValue){
-          await db.collection('posts').doc(IdForComment).collection('comments').add({
+          await db.collection('posts').doc(idForComment).collection('comments').add({
             comment: commentInputValue,
             username: user.displayName,
             profilePicture: user.photoURL,
+            uid: user.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           })
 

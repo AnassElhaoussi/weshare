@@ -21,6 +21,7 @@ import { useAuthContext } from '../context/AuthContext'
 import { auth, db, storage } from '../firebase'
 import { usePostsContext } from '../context/PostsContext'
 import { useUsersContext } from '../context/UsersContext'
+import { useCommentsContext } from '../context/CommentsContext'
 
 
 const AccountModal = ({isOpen, onClose}) => {
@@ -31,6 +32,9 @@ const AccountModal = ({isOpen, onClose}) => {
   const [editUsernameError, setEditUsernameError] = useState(false)
   const users = useUsersContext()
   const posts = usePostsContext()
+  const {idForComment, setIdForComment, comments} = useCommentsContext()
+
+
 
 
 
@@ -46,6 +50,12 @@ const AccountModal = ({isOpen, onClose}) => {
 
         users.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
             db.collection('users').doc(id).update({
+                username: editUsernameInputValue
+            })
+        })
+
+        comments.filter(({data}) => data.uid === auth.currentUser.uid).map(({data, id}) => {
+            db.collection('posts').doc(idForComment).collection('comments').doc(id).update({
                 username: editUsernameInputValue
             })
         })
