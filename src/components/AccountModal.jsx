@@ -31,6 +31,10 @@ const AccountModal = ({isOpen, onClose}) => {
   const [editUsernameError, setEditUsernameError] = useState(false)
   const users = useUsersContext()
   const posts = usePostsContext()
+  const [commentsForEdits, setCommentsForEdits] = useState([])
+
+
+  
 
 
 

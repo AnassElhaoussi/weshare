@@ -74,7 +74,6 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
     const handleCommentSect = (id) => {
       setCommentSectIsActive(true)
       setIdForComment(id)
-
       
     }
 
