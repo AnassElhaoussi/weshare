@@ -67,6 +67,7 @@ const Home = ({commentSectIsActive, setCommentSectIsActive}) => {
             comment: commentInputValue,
             username: user.displayName,
             profilePicture: user.photoURL,
+            uid: user.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           })
 
